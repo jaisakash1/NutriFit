@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 require('dotenv').config();
-
+require('./reminderCron');
 // Import routes
 const authRoutes = require('./routes/authRoutes');
 const dietRoutes = require('./routes/dietRoutes');
