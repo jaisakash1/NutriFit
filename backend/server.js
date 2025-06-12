@@ -27,6 +27,12 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false
 }));
 
+// app.use(cors({
+//   origin: 'http://localhost:5173', // or your production URL
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+//   credentials: true,
+//   optionsSuccessStatus: 204,
+// }));
 app.use(cors({
   origin: 'https://nutri-fit-zxtv.vercel.app',
   // origin:'http://localhost:5173/',

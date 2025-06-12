@@ -74,6 +74,7 @@ const updateReminder = async (req, res) => {
         updates.time || req.body.time,
         updates.days || req.body.days,
         updates.frequency || req.body.frequency
+      
       );
     }
 
@@ -227,12 +228,15 @@ function calculateNextScheduled(time, days, frequency) {
 }
 async function checkAndSendReminders() {
   const now = new Date();
+  console.log("Current time:", now);
+
   const reminders = await Reminder.find({
     nextScheduled: { $lte: now },
     isActive: true
   }).populate('userId');
 
   for (const reminder of reminders) {
+    console.log("Checking reminder:", reminder);
     if (reminder.preferences.email) {
       try {
         await emailService.sendReminderEmail(reminder.userId, reminder);
@@ -248,6 +252,7 @@ async function checkAndSendReminders() {
 }
 
 // Schedule the checkAndSendReminders function to run every minute
+// Adjust the cron schedule as needed
 cron.schedule('* * * * *', checkAndSendReminders);
 
 module.exports = {
