@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 require('dotenv').config();
 
 // Import routes
@@ -26,6 +27,11 @@ app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true
 }));
+
+// Serve static files from the React app in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+}
 
 // Rate limiting configuration
 const authLimiter = rateLimit({
@@ -91,6 +97,13 @@ app.use('/api/chat', requireDatabase, apiLimiter, chatRoutes);
 app.use('/api/reminders', requireDatabase, apiLimiter, reminderRoutes);
 app.use('/api/health', requireDatabase, apiLimiter, healthRoutes);
 app.use('/api/admin', requireDatabase, apiLimiter, adminRoutes);
+
+// Serve React app for any other routes in production
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+  });
+}
 
 // Health check endpoint (works without database)
 app.get('/api/health-check', (req, res) => {
