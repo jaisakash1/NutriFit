@@ -1,6 +1,7 @@
 const Reminder = require('../models/Reminder');
 const User = require('../models/User');
 const emailService = require('../utils/emailService');
+const cron = require('node-cron');
 
 const createReminder = async (req, res) => {
   try {
@@ -224,6 +225,30 @@ function calculateNextScheduled(time, days, frequency) {
   
   return new Date();
 }
+async function checkAndSendReminders() {
+  const now = new Date();
+  const reminders = await Reminder.find({
+    nextScheduled: { $lte: now },
+    isActive: true
+  }).populate('userId');
+
+  for (const reminder of reminders) {
+    if (reminder.preferences.email) {
+      try {
+        await emailService.sendReminderEmail(reminder.userId, reminder);
+        // Update next scheduled time after sending
+        reminder.nextScheduled = calculateNextScheduled(reminder.time, reminder.days, reminder.frequency);
+        await reminder.save();
+        console.log(`Reminder sent for ${reminder._id}`);
+      } catch (error) {
+        console.error(`Error sending reminder ${reminder._id}:`, error);
+      }
+    }
+  }
+}
+
+// Schedule the checkAndSendReminders function to run every minute
+cron.schedule('* * * * *', checkAndSendReminders);
 
 module.exports = {
   createReminder,
