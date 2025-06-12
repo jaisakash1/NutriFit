@@ -1,6 +1,6 @@
-# Health & Fitness App - Deployment Guide
+# NutriFit - Deployment Guide
 
-This guide provides instructions for deploying the Health & Fitness full-stack application.
+This guide provides instructions for deploying the ComplanX full-stack application.
 
 ## Prerequisites
 

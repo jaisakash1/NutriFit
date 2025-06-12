@@ -61,7 +61,7 @@ const Register = () => {
             <Activity className="w-6 h-6 text-white" />
           </div>
           <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Join HealthFit
+            Join NutriFit
           </h2>
           <p className="text-gray-600 text-sm mt-1">Start your personalized journey</p>
         </div>
