@@ -16,5 +16,12 @@ export default defineConfig({
         drop_debugger: true
       }
     }
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom']
+  },
+  server: {
+    port: 5173,
+    strictPort: true
   }
 })
