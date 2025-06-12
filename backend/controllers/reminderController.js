@@ -188,7 +188,8 @@ const sendTestReminder = async (req, res) => {
 
 // Helper function to calculate next scheduled time
 function calculateNextScheduled(time, days, frequency) {
-  const now = new Date();
+  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+
   const [hours, minutes] = time.split(':').map(Number);
   
   if (frequency === 'daily') {
@@ -227,7 +228,8 @@ function calculateNextScheduled(time, days, frequency) {
   return new Date();
 }
 async function checkAndSendReminders() {
-  const now = new Date();
+  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+
   console.log("Current time:", now);
 
   const reminders = await Reminder.find({
@@ -253,7 +255,9 @@ async function checkAndSendReminders() {
 
 // Schedule the checkAndSendReminders function to run every minute
 // Adjust the cron schedule as needed
-cron.schedule('* * * * *', checkAndSendReminders);
+cron.schedule('* * * * *', checkAndSendReminders, {
+  timezone: 'Asia/Kolkata'
+});
 
 module.exports = {
   createReminder,
