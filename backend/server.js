@@ -164,7 +164,7 @@ app.use('/api/admin', requireDatabase, apiLimiter, adminRoutes);
 if (process.env.NODE_ENV === 'production') {
   const frontendPath = path.join(__dirname, '../frontend/dist/index.html');
 
-  app.get('/*', (req, res) => {
+  app.get('*', (req, res) => {
     res.sendFile(frontendPath);
   });
   
