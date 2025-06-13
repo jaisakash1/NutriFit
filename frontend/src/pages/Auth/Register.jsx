@@ -155,10 +155,10 @@ const Register = () => {
                       type={showPassword ? 'text' : 'password'}
                       {...register('password', {
                         required: 'Required',
-                        minLength: { value: 6, message: 'Too short' }
+                        minLength: { value: 1, message: 'Too short' }
                       })}
                       className="w-full pl-9 pr-9 py-2 border rounded-md focus:ring-blue-500"
-                      placeholder="Password"
+                      placeholder="Password "
                     />
                     <button
                       type="button"
