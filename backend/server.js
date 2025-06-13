@@ -27,18 +27,18 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false
 }));
 
-app.use(cors({
-  origin: 'http://localhost:5173', // or your production URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  credentials: true,
-  optionsSuccessStatus: 204,
-}));
 // app.use(cors({
-//   origin: 'https://nutri-fit-zxtv.vercel.app',
-//   // origin:'http://localhost:5173/',
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   credentials: true // if you're using cookies or sessions
+//   origin: 'http://localhost:5173', // or your production URL
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+//   credentials: true,
+//   optionsSuccessStatus: 204,
 // }));
+app.use(cors({
+  origin: 'https://nutri-fit-zxtv.vercel.app',
+  // origin:'http://localhost:5173/',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true // if you're using cookies or sessions
+}));
 
 // Serve static files from the React app in production
 if (process.env.NODE_ENV === 'production') {
