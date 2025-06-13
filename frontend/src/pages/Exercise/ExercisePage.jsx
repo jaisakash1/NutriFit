@@ -243,18 +243,28 @@ const CreateCustomPlanModal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Create Custom Exercise Plan</h2>
+    // <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    //   <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6">
+    //     <div className="flex justify-between items-center mb-6">
+    //       <h2 className="text-2xl font-bold text-gray-900">Create Custom Exercise Plan</h2>
+    //       <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+    //         <X className="w-6 h-6" />
+    //       </button>
+    //     </div>
+       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto p-4 sm:p-6">
+        <div className="flex justify-between items-center mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Create Custom Exercise Plan</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        {/* <form onSubmit={handleSubmit} className="space-y-6"> */}
+           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           {/* Basic Plan Info */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Plan Name
@@ -467,13 +477,20 @@ const CreateCustomPlanModal = ({ isOpen, onClose, onSubmit }) => {
             </div>
           </div>
 
-          <div className="flex justify-end space-x-4">
-            <Button type="button" variant="outline" onClick={onClose}>
+          {/* <div className="flex justify-end space-x-4">
+            <Button type="button" variant="outline" onClick={onClose}> */}
+                <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4">
+            <Button type="button" variant="outline" onClick={onClose} className="w-full sm:w-auto">
               Cancel
             </Button>
-            <Button
+            {/* <Button
               type="submit"
               disabled={formData.weeklySchedule.length === 0}
+            > */}
+             <Button
+              type="submit"
+              disabled={formData.weeklySchedule.length === 0}
+              className="w-full sm:w-auto"
             >
               <Save className="w-5 h-5 mr-2" />
               Create Plan
@@ -578,16 +595,24 @@ const ExerciseList = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    // <div className="min-h-screen bg-gray-50 py-8">
+     <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
       <BackgroundIcons />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+       */}
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         {/* Header */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex justify-between items-center mb-8"
+        > */}
+         <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4"
         >
-          <div>
+          {/* <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center">
               <Dumbbell className="w-8 h-8 mr-3 text-orange-500" />
               Exercise Plans
@@ -595,7 +620,17 @@ const ExerciseList = () => {
             <p className="text-gray-600 mt-2">
               AI-powered and custom workout plans for your fitness goals
             </p>
+          </div> */}
+           <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center">
+              <Dumbbell className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-orange-500" />
+              Exercise Plans
+            </h1>
+            <p className="text-gray-600 mt-1 sm:mt-2 text-sm sm:text-base">
+              AI-powered and custom workout plans for your fitness goals
+            </p>
           </div>
+{/*           
           <div className="flex space-x-3">
             <Button
               onClick={() => setIsCreateModalOpen(true)}
@@ -620,6 +655,39 @@ const ExerciseList = () => {
               AI Gym Plan
             </Button>
           </div>
+        </motion.div> */}
+           <div className="flex flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
+            <Button
+              onClick={() => setIsCreateModalOpen(true)}
+              variant="outline"
+              size="sm"
+              className="flex-1 sm:flex-none"
+            >
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Custom</span>
+            </Button>
+            <Button
+              onClick={() => generateNewPlan('home')}
+              loading={generating}
+              variant="outline"
+              size="sm"
+              className="flex-1 sm:flex-none"
+            >
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">AI Home</span>
+              <span className="sm:hidden">Home</span>
+            </Button>
+            <Button
+              onClick={() => generateNewPlan('gym')}
+              loading={generating}
+              size="sm"
+              className="flex-1 sm:flex-none"
+            >
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">AI Gym</span>
+              <span className="sm:hidden">Gym</span>
+            </Button>
+          </div>
         </motion.div>
 
         {/* Create Custom Plan Modal */}
@@ -633,13 +701,21 @@ const ExerciseList = () => {
         />
 
         {/* Plans Grid */}
-        {plans.length > 0 ? (
+        {/* {plans.length > 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          > */}
+                  {plans.length > 0 ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
           >
+
             {plans.map((plan, index) => (
               <motion.div
                 key={plan._id}
@@ -740,10 +816,15 @@ const ExerciseList = () => {
             ))}
           </motion.div>
         ) : (
-          <motion.div
+          // <motion.div
+          //   initial={{ opacity: 0, y: 20 }}
+          //   animate={{ opacity: 1, y: 0 }}
+          //   className="text-center py-16"
+          // >
+               <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center py-16"
+            className="text-center py-8 sm:py-16"
           >
             <div className="w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Dumbbell className="w-12 h-12 text-orange-500" />
@@ -880,26 +961,85 @@ const ExercisePlanDetail = ({ planId }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+    // <div className="min-h-screen bg-gray-50 py-8">
+    //   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    //     {/* Header */}
+    //     <motion.div
+    //       initial={{ opacity: 0, y: 20 }}
+    //       animate={{ opacity: 1, y: 0 }}
+    //       className="mb-8"
+    //     >
+    //       <div className="flex items-center justify-between mb-4">
+    //         <Link to="/exercise" className="text-blue-600 hover:text-blue-700 font-medium">
+    //           ← Back to Exercise Plans
+    //         </Link>
+    //       </div>
+    //       <div className="flex items-center justify-between">
+    //         <div>
+    //           <h1 className="text-3xl font-bold text-gray-900 mb-2">{plan.planName}</h1>
+    //           <p className="text-gray-600">{plan.description}</p>
+    //         </div>
+    //         <div className="flex items-center space-x-4">
+    //           <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+    //             plan.planType === 'gym' 
+    //               ? 'bg-orange-100 text-orange-800'
+    //               : plan.planType === 'home'
+    //               ? 'bg-green-100 text-green-800'
+    //               : 'bg-blue-100 text-blue-800'
+    //           }`}>
+    //             {plan.planType.toUpperCase()}
+    //           </span>
+    //           <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+    //             plan.difficulty === 'beginner'
+    //               ? 'bg-green-100 text-green-800'
+    //               : plan.difficulty === 'intermediate'
+    //               ? 'bg-yellow-100 text-yellow-800'
+    //               : 'bg-red-100 text-red-800'
+    //           }`}>
+    //             {plan.difficulty}
+    //           </span>
+    //         </div>
+    //       </div>
+    //     </motion.div>
+
+    //     {/* Plan Stats */}
+    //     <motion.div
+    //       initial={{ opacity: 0, y: 20 }}
+    //       animate={{ opacity: 1, y: 0 }}
+    //       transition={{ delay: 0.1 }}
+    //       className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
+    //     >
+    //       <Card>
+    //         <div className="text-center">
+    //           <p className="text-2xl font-bold text-orange-600">{plan.duration}</p>
+    //           <p className="text-sm text-gray-600">Weeks</p>
+    //         </div>
+    //       </Card>
+
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        {/* Responsive Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-6"
         >
-          <div className="flex items-center justify-between mb-4">
-            <Link to="/exercise" className="text-blue-600 hover:text-blue-700 font-medium">
+          <div className="mb-4">
+            <Link to="/exercise" className="text-blue-600 hover:text-blue-700 font-medium text-sm sm:text-base">
               ← Back to Exercise Plans
             </Link>
           </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">{plan.planName}</h1>
-              <p className="text-gray-600">{plan.description}</p>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1 sm:mb-2 truncate">
+                {plan.planName}
+              </h1>
+              <p className="text-gray-600 text-sm sm:text-base truncate">
+                {plan.description}
+              </p>
             </div>
-            <div className="flex items-center space-x-4">
-              <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+            <div className="flex flex-wrap gap-2">
+              <span className={`px-2 py-1 text-xs sm:text-sm font-medium rounded-full ${
                 plan.planType === 'gym' 
                   ? 'bg-orange-100 text-orange-800'
                   : plan.planType === 'home'
@@ -908,7 +1048,7 @@ const ExercisePlanDetail = ({ planId }) => {
               }`}>
                 {plan.planType.toUpperCase()}
               </span>
-              <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+              <span className={`px-2 py-1 text-xs sm:text-sm font-medium rounded-full ${
                 plan.difficulty === 'beginner'
                   ? 'bg-green-100 text-green-800'
                   : plan.difficulty === 'intermediate'
@@ -921,17 +1061,17 @@ const ExercisePlanDetail = ({ planId }) => {
           </div>
         </motion.div>
 
-        {/* Plan Stats */}
+        {/* Plan Stats - 2 columns on mobile */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
+          className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 mb-6"
         >
-          <Card>
+          <Card className="p-3 sm:p-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-orange-600">{plan.duration}</p>
-              <p className="text-sm text-gray-600">Weeks</p>
+              <p className="text-xl sm:text-2xl font-bold text-orange-600">{plan.duration}</p>
+              <p className="text-xs sm:text-sm text-gray-600">Weeks</p>
             </div>
           </Card>
           <Card>
@@ -955,7 +1095,7 @@ const ExercisePlanDetail = ({ planId }) => {
         </motion.div>
 
         {/* Tabs */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -983,10 +1123,10 @@ const ExercisePlanDetail = ({ planId }) => {
                 Log Progress
               </button>
             </nav>
-          </div>
+          </div> */}
 
           {/* Tab Content */}
-          {activeTab === 'schedule' && (
+          {/* {activeTab === 'schedule' && (
             <div className="space-y-6">
               {plan.weeklySchedule && plan.weeklySchedule.length > 0 ? (
                 plan.weeklySchedule.map((session, index) => (
@@ -1006,7 +1146,60 @@ const ExercisePlanDetail = ({ planId }) => {
                         </span>
                       </div>
                     </div>
-                    
+                     */}
+
+                        {/* Tabs - Scrollable on mobile */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <div className="border-b border-gray-200 mb-4 sm:mb-6 overflow-x-auto">
+            <nav className="flex space-x-4 sm:space-x-8 min-w-max">
+              <button
+                onClick={() => setActiveTab('schedule')}
+                className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
+                  activeTab === 'schedule'
+                    ? 'border-orange-500 text-orange-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                Weekly Schedule
+              </button>
+              <button
+                onClick={() => setActiveTab('progress')}
+                className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
+                  activeTab === 'progress'
+                    ? 'border-orange-500 text-orange-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                Log Progress
+              </button>
+            </nav>
+          </div>
+
+          {/* Tab Content */}
+          {activeTab === 'schedule' && (
+            <div className="space-y-4 sm:space-y-6">
+              {plan.weeklySchedule && plan.weeklySchedule.length > 0 ? (
+                plan.weeklySchedule.map((session, index) => (
+                  <Card key={index} className="p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 gap-2">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate">
+                        {session.sessionName || `Day ${session.day}`}
+                      </h3>
+                      <div className="flex items-center space-x-3 sm:space-x-4 text-xs sm:text-sm text-gray-600">
+                        <span className="flex items-center">
+                          <Clock className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                          {session.totalDuration || 0} min
+                        </span>
+                        <span className="flex items-center">
+                          <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                          {session.totalCaloriesBurn || 0} cal
+                        </span>
+                      </div>
+                    </div>
                     {session.description && (
                       <p className="text-gray-600 mb-4">{session.description}</p>
                     )}
@@ -1113,7 +1306,20 @@ const ExercisePlanDetail = ({ planId }) => {
                   </Card>
                 ))
               ) : (
-                <div className="text-center py-8">
+          //       <div className="text-center py-8">
+          //         <p className="text-gray-600">No workout sessions found in this plan.</p>
+          //       </div>
+          //     )}
+          //   </div>
+          // )}
+
+          // {activeTab === 'progress' && (
+          //   <Card>
+          //     <h3 className="text-lg font-semibold text-gray-900 mb-6">Log Today's Progress</h3>
+          //     <div className="space-y-6">
+          //       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          //         <div>
+                <div className="text-center py-6 sm:py-8">
                   <p className="text-gray-600">No workout sessions found in this plan.</p>
                 </div>
               )}
@@ -1121,11 +1327,12 @@ const ExercisePlanDetail = ({ planId }) => {
           )}
 
           {activeTab === 'progress' && (
-            <Card>
-              <h3 className="text-lg font-semibold text-gray-900 mb-6">Log Today's Progress</h3>
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
+            <Card className="p-4 sm:p-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4 sm:mb-6">Log Today's Progress</h3>
+              <div className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+
+
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Completed Exercises
                     </label>
@@ -1201,7 +1408,7 @@ const ExercisePlanDetail = ({ planId }) => {
                   <CheckCircle className="w-5 h-5 mr-2" />
                   Log Progress
                 </Button>
-              </div>
+              {/* </div> */}
             </Card>
           )}
         </motion.div>

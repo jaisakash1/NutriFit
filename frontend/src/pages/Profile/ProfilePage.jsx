@@ -167,61 +167,150 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+    // <div className="min-h-screen bg-gray-50 py-8">
+    //   <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    //     {/* Header */}
+    //     <motion.div
+    //       initial={{ opacity: 0, y: 20 }}
+    //       animate={{ opacity: 1, y: 0 }}
+    //       className="mb-8"
+    //     >
+    //       <div className="flex items-center space-x-4 mb-6">
+    //         <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+    //           <span className="text-2xl font-bold text-white">
+    //             {user?.name?.charAt(0)?.toUpperCase()}
+    //           </span>
+    //         </div>
+    //         <div>
+    //           <h1 className="text-3xl font-bold text-gray-900">{user?.name}</h1>
+    //           <p className="text-gray-600">{user?.email}</p>
+    //           <p className="text-sm text-gray-500">
+    //             Member since {new Date(user?.createdAt).toLocaleDateString()}
+    //           </p>
+    //         </div>
+    //       </div>
+    //     </motion.div>
+
+    //     {/* Tabs */}
+    //     <motion.div
+    //       initial={{ opacity: 0, y: 20 }}
+    //       animate={{ opacity: 1, y: 0 }}
+    //       transition={{ delay: 0.1 }}
+    //     >
+    //       <div className="border-b border-gray-200 mb-8">
+    //         <nav className="-mb-px flex space-x-8">
+    //           <button
+    //             onClick={() => setActiveTab('profile')}
+    //             className={`py-2 px-1 border-b-2 font-medium text-sm ${
+    //               activeTab === 'profile'
+    //                 ? 'border-blue-500 text-blue-600'
+    //                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+    //             }`}
+    //           >
+    //             Profile Information
+    //           </button>
+    //           <button
+    //             onClick={() => setActiveTab('health')}
+    //             className={`py-2 px-1 border-b-2 font-medium text-sm ${
+    //               activeTab === 'health'
+    //                 ? 'border-blue-500 text-blue-600'
+    //                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+    //             }`}
+    //           >
+    //             Health Profile
+    //           </button>
+    //           <button
+    //             onClick={() => setActiveTab('security')}
+    //             className={`py-2 px-1 border-b-2 font-medium text-sm ${
+    //               activeTab === 'security'
+    //                 ? 'border-blue-500 text-blue-600'
+    //                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+    //             }`}
+    //           >
+    //             Security
+    //           </button>
+    //           <button
+    //             onClick={() => setActiveTab('preferences')}
+    //             className={`py-2 px-1 border-b-2 font-medium text-sm ${
+    //               activeTab === 'preferences'
+    //                 ? 'border-blue-500 text-blue-600'
+    //                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+    //             }`}
+    //           >
+    //             Preferences
+    //           </button>
+    //         </nav>
+    //       </div>
+
+    //       {/* Tab Content */}
+    //       {activeTab === 'profile' && (
+    //         <motion.div
+    //           initial={{ opacity: 0, x: 20 }}
+    //           animate={{ opacity: 1, x: 0 }}
+    //         >
+    //           <Card>
+    //             <div className="flex items-center justify-between mb-6">
+    //               <h3 className="text-lg font-semibold text-gray-900">Basic Information</h3>
+    //               <User className="w-6 h-6 text-blue-500" />
+    //             </div>
+
+    //             <div className="space-y-6">
+    //               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div className="min-h-screen bg-gray-50 py-4 md:py-8">
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        {/* Responsive Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-6 md:mb-8"
         >
-          <div className="flex items-center space-x-4 mb-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-              <span className="text-2xl font-bold text-white">
+          <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4 md:mb-6">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+              <span className="text-xl sm:text-2xl font-bold text-white">
                 {user?.name?.charAt(0)?.toUpperCase()}
               </span>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">{user?.name}</h1>
-              <p className="text-gray-600">{user?.email}</p>
-              <p className="text-sm text-gray-500">
+            <div className="text-center sm:text-left">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{user?.name}</h1>
+              <p className="text-gray-600 text-sm sm:text-base">{user?.email}</p>
+              <p className="text-xs sm:text-sm text-gray-500">
                 Member since {new Date(user?.createdAt).toLocaleDateString()}
               </p>
             </div>
           </div>
         </motion.div>
 
-        {/* Tabs */}
+        {/* Responsive Tabs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <div className="border-b border-gray-200 mb-8">
-            <nav className="-mb-px flex space-x-8">
+          <div className="border-b border-gray-200 mb-6 md:mb-8 overflow-x-auto">
+            <nav className="-mb-px flex space-x-4 min-w-max">
               <button
                 onClick={() => setActiveTab('profile')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                className={`py-2 px-1 border-b-2 font-medium text-xs sm:text-sm ${
                   activeTab === 'profile'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
-                Profile Information
+                Profile
               </button>
               <button
                 onClick={() => setActiveTab('health')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                className={`py-2 px-1 border-b-2 font-medium text-xs sm:text-sm ${
                   activeTab === 'health'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
-                Health Profile
+                Health
               </button>
               <button
                 onClick={() => setActiveTab('security')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                className={`py-2 px-1 border-b-2 font-medium text-xs sm:text-sm ${
                   activeTab === 'security'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -231,7 +320,7 @@ const ProfilePage = () => {
               </button>
               <button
                 onClick={() => setActiveTab('preferences')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                className={`py-2 px-1 border-b-2 font-medium text-xs sm:text-sm ${
                   activeTab === 'preferences'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -249,13 +338,15 @@ const ProfilePage = () => {
               animate={{ opacity: 1, x: 0 }}
             >
               <Card>
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900">Basic Information</h3>
-                  <User className="w-6 h-6 text-blue-500" />
+                <div className="flex items-center justify-between mb-4 md:mb-6">
+                  <h3 className="text-base md:text-lg font-semibold text-gray-900">Basic Information</h3>
+                  <User className="w-5 h-5 md:w-6 md:h-6 text-blue-500" />
                 </div>
 
-                <div className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4 md:space-y-6">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+           
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Full Name
@@ -300,6 +391,8 @@ const ProfilePage = () => {
                     <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
                   </div>
 
+
+{/* 
                   <Button onClick={updateProfile} loading={loading}>
                     <Save className="w-5 h-5 mr-2" />
                     Save Changes
@@ -307,22 +400,53 @@ const ProfilePage = () => {
                 </div>
               </Card>
             </motion.div>
+          )} */}
+
+          
+               <Button onClick={updateProfile} loading={loading} className="w-full sm:w-auto">
+                    <Save className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                    Save Changes
+                  </Button>
+                </div>
+              </Card>
+            </motion.div>
           )}
 
+{/* 
           {activeTab === 'health' && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               className="space-y-6"
-            >
+            > */}
               {/* Basic Health Info */}
-              <Card>
+              {/* <Card>
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-semibold text-gray-900">Health Metrics</h3>
                   <Activity className="w-6 h-6 text-green-500" />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+
+ */}
+     {activeTab === 'health' && (
+   <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="space-y-4 md:space-y-6"
+            >
+              {/* Health Metrics - Responsive Grid */}
+              <Card>
+                <div className="flex items-center justify-between mb-4 md:mb-6">
+                  <h3 className="text-base md:text-lg font-semibold text-gray-900">Health Metrics</h3>
+                  <Activity className="w-5 h-5 md:w-6 md:h-6 text-green-500" />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">
+
+
+
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Age
@@ -409,7 +533,10 @@ const ProfilePage = () => {
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                 */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+            
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Target Weight (kg)
@@ -457,9 +584,11 @@ const ProfilePage = () => {
 
               {/* Lifestyle & Preferences */}
               <Card>
-                <h3 className="text-lg font-semibold text-gray-900 mb-6">Lifestyle & Preferences</h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                {/* <h3 className="text-lg font-semibold text-gray-900 mb-6">Lifestyle & Preferences</h3> */}
+     <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-4 md:mb-6">Lifestyle & Preferences</h3>
+                {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"> */}
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Activity Level
@@ -508,13 +637,21 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Health Conditions */}
-                <div className="mb-6">
+                {/* <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-3">
                     Health Conditions
+                  </label> */}
+ <div className="mb-4 md:mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Health Conditions
                   </label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+
+                  {/* <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     {healthConditions.map((condition) => (
-                      <label key={condition} className="flex items-center">
+                      <label key={condition} className="flex items-center"> */}
+                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
+                    {healthConditions.map((condition) => (
+                      <label key={condition} className="flex items-center text-sm">
                         <input
                           type="checkbox"
                           checked={profileData.healthProfile.healthConditions.includes(condition)}
@@ -530,13 +667,21 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Dietary Restrictions */}
-                <div>
+                {/* <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">
                     Dietary Restrictions
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     {dietaryRestrictions.map((restriction) => (
-                      <label key={restriction} className="flex items-center">
+                      <label key={restriction} className="flex items-center"> */}
+                       
+                            <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Dietary Restrictions
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
+                    {dietaryRestrictions.map((restriction) => (
+                      <label key={restriction} className="flex items-center text-sm">
                         <input
                           type="checkbox"
                           checked={profileData.healthProfile.dietaryRestrictions.includes(restriction)}
@@ -551,9 +696,15 @@ const ProfilePage = () => {
                   </div>
                 </div>
               </Card>
-
+{/* 
               <Button onClick={updateProfile} loading={loading}>
                 <Save className="w-5 h-5 mr-2" />
+                Save Health Profile
+              </Button>
+            </motion.div>
+          )} */}
+             <Button onClick={updateProfile} loading={loading} className="w-full sm:w-auto">
+                <Save className="w-4 h-4 md:w-5 md:h-5 mr-2" />
                 Save Health Profile
               </Button>
             </motion.div>
