@@ -4,7 +4,8 @@ const Reminder = require('./models/Reminder');
 const emailService = require('./utils/emailService');
 
 function calculateNextScheduled(time, days, frequency) {
-  const now = new Date();
+const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+
   const [hours, minutes] = time.split(':').map(Number);
 
   if (frequency === 'daily') {
@@ -33,7 +34,8 @@ function calculateNextScheduled(time, days, frequency) {
 }
 
 async function checkAndSendReminders() {
-  const now = new Date();
+ const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+
   console.log("⏰ Checking reminders at", now.toLocaleTimeString());
 
   const reminders = await Reminder.find({
