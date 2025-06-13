@@ -43,7 +43,7 @@ app.use(helmet({
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://nutri-fit-zxtv.vercel.app'
+  'https://nutri-fit-zxtv.vercel.app', // replace with your Vercel frontend if this changes
 ];
 
 app.use(cors({
@@ -51,12 +51,14 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.error('Blocked by CORS:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 }));
+
+// Preflight requests support
 app.options('*', cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
