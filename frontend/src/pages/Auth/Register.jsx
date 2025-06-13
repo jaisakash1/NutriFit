@@ -13,7 +13,12 @@ const Register = () => {
   const [step, setStep] = useState(1);
   const { register: registerUser, isAuthenticated } = useAuth();
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    formState: { errors }
+  } = useForm();
 
   if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />;
@@ -44,7 +49,15 @@ const Register = () => {
     setLoading(false);
   };
 
-  const nextStep = () => setStep(step + 1);
+  const nextStep = async () => {
+    let fieldsToValidate = [];
+    if (step === 1) fieldsToValidate = ['name', 'email', 'mobile', 'password'];
+    if (step === 2) fieldsToValidate = ['age', 'gender', 'weight', 'height'];
+
+    const valid = await trigger(fieldsToValidate);
+    if (valid) setStep(step + 1);
+  };
+
   const prevStep = () => setStep(step - 1);
 
   return (
@@ -158,7 +171,7 @@ const Register = () => {
                         minLength: { value: 6, message: 'Too short' }
                       })}
                       className="w-full pl-9 pr-9 py-2 border rounded-md focus:ring-blue-500"
-                      placeholder="Password Must Me at Least 6 Characters"
+                      placeholder="Password must be at least 6 characters"
                     />
                     <button
                       type="button"
