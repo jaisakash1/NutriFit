@@ -33,11 +33,39 @@ app.use(helmet({
 //   credentials: true,
 //   optionsSuccessStatus: 204,
 // }));
+// app.use(cors({
+//   // origin: 'https://nutri-fit-zxtv.vercel.app',
+//   origin:'http://localhost:5173/',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true // if you're using cookies or sessions
+// }));
+ 
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://nutri-fit-zxtv.vercel.app'
+];
+
 app.use(cors({
-  origin: 'https://nutri-fit-zxtv.vercel.app',
-  // origin:'http://localhost:5173/',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true // if you're using cookies or sessions
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+}));
+app.options('*', cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
 }));
 
 // Serve static files from the React app in production
