@@ -148,25 +148,72 @@ const getProfile = async (req, res) => {
   }
 };
 
+// const updateProfile = async (req, res) => {
+//   try {
+//     const updates = req.body;
+//     const userId = req.user.id;
+
+//     // Remove sensitive fields that shouldn't be updated this way
+//     delete updates.password;
+//     delete updates.email;
+//     delete updates.role;
+
+//     const user = await User.findByIdAndUpdate(
+//       userId, 
+//       updates, 
+//       { new: true, runValidators: true }
+//     );
+
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+
+//     res.json({
+//       success: true,
+//       message: 'Profile updated successfully',
+//       user: {
+//         id: user._id,
+//         name: user.name,
+//         email: user.email,
+//         mobile: user.mobile,
+//         healthProfile: user.healthProfile,
+//         preferences: user.preferences,
+//         profilePicture: user.profilePicture
+//       }
+//     });
+//   } catch (error) {
+//     console.error('Update profile error:', error);
+//     res.status(500).json({ 
+//       message: 'Error updating profile', 
+//       error: error.message 
+//     });
+//   }
+// };
+
 const updateProfile = async (req, res) => {
   try {
     const updates = req.body;
     const userId = req.user.id;
 
-    // Remove sensitive fields that shouldn't be updated this way
     delete updates.password;
     delete updates.email;
     delete updates.role;
 
-    const user = await User.findByIdAndUpdate(
-      userId, 
-      updates, 
-      { new: true, runValidators: true }
-    );
-
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+
+    // Apply updates
+    if (updates.name) user.name = updates.name;
+    if (updates.mobile) user.mobile = updates.mobile;
+
+    if (updates.healthProfile) {
+      user.healthProfile = updates.healthProfile;
+      user.markModified('healthProfile'); // 🚀 This ensures pre-save recalculates BMI/BMR
+    }
+
+    await user.save();
 
     res.json({
       success: true,
@@ -189,6 +236,9 @@ const updateProfile = async (req, res) => {
     });
   }
 };
+
+
+
 
 const changePassword = async (req, res) => {
   try {
