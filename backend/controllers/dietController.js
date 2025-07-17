@@ -51,12 +51,19 @@ const generateDietPlan = async (req, res) => {
     }
 
     // Calculate daily calorie needs
-    const dailyCalorieNeeds = user.getDailyCalorieNeeds();
-    if (!dailyCalorieNeeds) {
-      return res.status(500).json({
-        message: 'Failed to calculate daily calorie needs. Please check your health profile data.'
-      });
-    }
+    // const dailyCalorieNeeds = user.getDailyCalorieNeeds();
+    // if (!dailyCalorieNeeds) {
+    //   return res.status(500).json({
+    //     message: 'Failed to calculate daily calorie needs. Please check your health profile data.'
+    //   });
+    // }
+
+    let dailyCalorieNeeds = user.getDailyCalorieNeeds();
+  if (!dailyCalorieNeeds) {
+      console.warn('Daily calorie needs not calculated properly. Falling back to default 2200 calories.');
+  dailyCalorieNeeds = 2200; // fallback default
+  }
+
 
     // Generate diet plan using GeminiAI
     const geminiAI = new GeminiAI();
