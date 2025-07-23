@@ -1,86 +1,72 @@
-# NutriFit - Deployment Guide
+NutriFit
+Welcome to NutriFit, your comprehensive health ecosystem designed to empower you on your journey to a healthier lifestyle. NutriFit seamlessly integrates personalized diet plans, custom workout routines, health tracking, and an AI-powered chatbot to create a holistic fitness and wellness experience.
 
-This guide provides instructions for deploying the ComplanX full-stack application.
+Features
+Personalized Diet Plans
+AI-generated nutrition plans tailored to your specific health goals such as weight loss, maintenance, or muscle gain.
 
-## Prerequisites
+Plans are customized based on your BMI, dietary preferences, and medical needs.
 
-- Node.js (v18 or higher recommended)
-- npm or yarn
-- A MongoDB database (local or a cloud service like MongoDB Atlas)
+Detailed daily calorie and macronutrient breakdown (proteins, carbs, fats).
 
-## 1. Installation
+Weekly meal plans with recipes and ingredient lists.
 
-First, install the dependencies for both the `backend` and `frontend`.
+Generate new diet plans anytime to stay on track and motivated.
 
-**Backend Dependencies:**
-```bash
-cd backend
-npm install
-```
+Customized Workouts
+Exercise plans designed specifically for your fitness goals and physical condition.
 
-**Frontend Dependencies:**
-```bash
-cd ../frontend
-npm install
-```
+Home and gym workout routines available.
 
-## 2. Environment Configuration
+Integration with daily calorie burn tracking to monitor progress.
 
-The backend requires an `.env` file for configuration. In the `backend` directory, create a file named `.env` and add the following variables:
+Health Tracking
+Comprehensive dashboard to log daily calories, calories burned, water intake, and body weight.
 
-```env
-# The port for the backend server
-PORT=5000
+Track adherence to diet and exercise plans.
 
-# Your MongoDB connection string
-MONGODB_URI=your_mongodb_connection_string
+Visual charts for easy monitoring of your fitness journey.
 
-# The URL of your deployed frontend (for CORS)
-# This should be the domain where you will host the application
-FRONTEND_URL=http://your-production-domain.com
+AI-Powered Chatbot
+Smart chatbot assistant available to answer health questions, provide tips, and offer motivation.
 
-# A secret key for signing JWT tokens
-JWT_SECRET=your_super_secret_jwt_key
+Reminder System with Email Notifications
+Set personalized reminders for workouts, hydration, meals, and more.
 
-# Set the environment to production
-NODE_ENV=production
-```
+Email notifications ensure you never miss important wellness tasks.
 
-**Replace the placeholder values:**
-- `your_mongodb_connection_string`: Your production MongoDB URI.
-- `http://your-production-domain.com`: The final domain where the app will be accessible.
-- `your_super_secret_jwt_key`: A long, random, and secure string.
+Admin dashboard to manage reminders, monitor user activity, and oversee the overall system.
 
-## 3. Build the Frontend
+Admin Dashboard
+Dedicated admin panel for managing users, diet and exercise plans, and reminders.
 
-Before starting the server, you need to create a production build of the frontend.
+Monitor reminder schedules and email alerts to provide seamless user support.
 
-```bash
-cd ../frontend
-npm run build
-```
+Enhance engagement and adherence through timely communications.
 
-This command will create a `dist` directory inside `frontend`. The backend is already configured to serve the files from this directory.
+Technology Stack
+Frontend: React, Tailwind CSS for a sleek, responsive UI.
 
-## 4. Run the Production Server
+Backend: Node.js, Express.js for robust server and API management.
 
-Now, you can start the backend server, which will also serve the frontend.
+Database: MongoDB for flexible data storage.
 
-```bash
-cd ../backend
-npm start
-```
-*Note: You may need to add a `start` script to your `backend/package.json` file if it doesn't exist:*
-`"start": "node server.js"`
+AI Integration: Gemini AI for intelligent diet and workout plan generation.
 
-Your application should now be running in production mode. You can access it at the `FRONTEND_URL` you configured in your `.env` file.
+Data Visualization: Chart.js for interactive health data charts.
 
-## Deployment to a Hosting Service (e.g., Heroku, Render, AWS)
+Getting Started
+Clone the repository
 
-When deploying to a hosting service, the process is similar:
-1.  **Set Environment Variables**: Use the hosting platform's dashboard to set the environment variables from your `.env` file.
-2.  **Build Command**: Configure the build command to install dependencies and build the frontend. A single command might look like this:
-    `npm install && (cd frontend && npm install && npm run build)`
-3.  **Start Command**: Set the start command to run the backend server: `node backend/server.js`.
+Install dependencies via npm/bun in both frontend and backend directories.
 
-This comprehensive guide should help you deploy your application successfully. Let me know if you have any questions! 
+Configure environment variables for database connections and email services.
+
+Run the backend and frontend servers.
+
+Register an account and start your personalized health journey!
+
+Why NutriFit?
+NutriFit is more than just an app. It’s an all-in-one platform that simplifies your health and fitness needs with AI-driven personalization, making it easier to set, track, and achieve your wellness goals. Whether you want to lose weight, build muscle, or just live healthier, NutriFit supports you every step of the way.
+
+Thank you for choosing NutriFit — Your health, personalized and optimized.
