@@ -158,27 +158,27 @@ const updateProfile = async (req, res) => {
     delete updates.email;
     delete updates.role;
 
-    const user = await User.findByIdAndUpdate(
-      userId, 
-      updates, 
-      { new: true, runValidators: true }
-    );
+    console.log(updates);
 
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    const user = await User.findById(userId);
+    Object.assign(user, updates);
+     if (updates.healthProfile) {
+      user.markModified('healthProfile');
     }
+    const savedUser = await user.save();
+
 
     res.json({
       success: true,
       message: 'Profile updated successfully',
       user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        mobile: user.mobile,
-        healthProfile: user.healthProfile,
-        preferences: user.preferences,
-        profilePicture: user.profilePicture
+        id: savedUser._id,
+        name: savedUser.name,
+        email: savedUser.email,
+        mobile: savedUser.mobile,
+        healthProfile: savedUser.healthProfile,
+        preferences: savedUser.preferences,
+        profilePicture: savedUser.profilePicture
       }
     });
   } catch (error) {
