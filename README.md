@@ -1,4 +1,3 @@
-NutriFit
 Welcome to NutriFit, your comprehensive health ecosystem designed to empower you on your journey to a healthier lifestyle. NutriFit seamlessly integrates personalized diet plans, custom workout routines, health tracking, and an AI-powered chatbot to create a holistic fitness and wellness experience.
 
 Features
