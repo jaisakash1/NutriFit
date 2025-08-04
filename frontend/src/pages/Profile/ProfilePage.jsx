@@ -156,7 +156,7 @@ const ProfilePage = () => {
   }
   else{
    healthConditions = [
-    'diabetes', 'hypertension', 'heart_disease', 'thyroid', 'pcos', 'arthritis'
+    'diabetes', 'hypertension', 'heart_disease', 'thyroid', 'arthritis'
   ];
   }
   const dietaryRestrictions = [
