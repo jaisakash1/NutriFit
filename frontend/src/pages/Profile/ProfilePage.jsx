@@ -147,11 +147,18 @@ const ProfilePage = () => {
       }
     }));
   };
-
-  const healthConditions = [
+  let healthConditions;
+  if(user.healthProfile.gender=='female'){
+      healthConditions = [
     'diabetes', 'hypertension', 'heart_disease', 'thyroid', 'pcos', 'arthritis'
   ];
 
+  }
+  else{
+   healthConditions = [
+    'diabetes', 'hypertension', 'heart_disease', 'thyroid', 'pcos', 'arthritis'
+  ];
+  }
   const dietaryRestrictions = [
     'vegetarian', 'vegan', 'gluten_free', 'dairy_free', 'nut_free'
   ];
