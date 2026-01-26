@@ -214,150 +214,6 @@
 
 
 
-// const express = require('express');
-// const mongoose = require('mongoose');
-// const cors = require('cors');
-// const helmet = require('helmet');
-// const morgan = require('morgan');
-// const rateLimit = require('express-rate-limit');
-// require('dotenv').config();
-// require('./reminderCron'); // Import the reminder cron job
-// // Import routes
-// const authRoutes = require('./routes/authRoutes');
-// const dietRoutes = require('./routes/dietRoutes');
-// const exerciseRoutes = require('./routes/exerciseRoutes');
-// const chatRoutes = require('./routes/chatRoutes');
-// const reminderRoutes = require('./routes/reminderRoutes');
-// const healthRoutes = require('./routes/healthRoutes');
-// const adminRoutes = require('./routes/adminRoutes');
-
-// // Import middleware
-// const errorHandler = require('./middleware/errorHandler');
-
-// const app = express();
-
-// // Security middleware
-// app.use(helmet());
-// const corsOptions = {
-//   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-//   credentials: true,
-//   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization']
-// };
-
-// app.use(cors(corsOptions));
-
-// // Handle preflight (OPTIONS) requests
-// app.options('*', cors(corsOptions));
-
-// // Rate limiting configuration
-// const authLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 20, // Limit each IP to 20 auth-related requests per window
-//   message: 'Too many login attempts, please try again after 15 minutes.'
-// });
-
-// const apiLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 200, // Limit each IP to 200 requests per window
-//   message: 'Too many requests, please try again later.'
-// });
-
-// // Logging
-// app.use(morgan('combined'));
-
-// // Body parsing middleware
-// app.use(express.json({ limit: '10mb' }));
-// app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-// // MongoDB connection with error handling
-// let isMongoConnected = false;
-
-// const connectToMongoDB = async () => {
-//   try {
-//     const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/healthfitness';
-    
-//     await mongoose.connect(mongoUri, {
-//       serverSelectionTimeoutMS: 5000,
-//       socketTimeoutMS: 45000,
-//     });
-    
-//     console.log('MongoDB connected successfully');
-//     isMongoConnected = true;
-//   } catch (err) {
-//     console.warn('MongoDB connection failed:', err.message);
-//     console.warn('Running in development mode without database connection');
-//     console.warn('Please ensure MongoDB is running or provide a valid MONGODB_URI in your .env file');
-//     isMongoConnected = false;
-//   }
-// };
-
-// // Attempt to connect to MongoDB
-// connectToMongoDB();
-
-// // Middleware to check database connection for routes that require it
-// const requireDatabase = (req, res, next) => {
-//   if (!isMongoConnected) {
-//     return res.status(503).json({ 
-//       error: 'Database unavailable', 
-//       message: 'MongoDB connection is not established. Please check your database configuration.' 
-//     });
-//   }
-//   next();
-// };
-
-// // Routes with database requirement check
-// app.use('/api/auth', requireDatabase, authLimiter, authRoutes);
-// app.use('/api/diet', requireDatabase, apiLimiter, dietRoutes);
-// app.use('/api/exercise', requireDatabase, apiLimiter, exerciseRoutes);
-// app.use('/api/chat', requireDatabase, apiLimiter, chatRoutes);
-// app.use('/api/reminders', requireDatabase, apiLimiter, reminderRoutes);
-// app.use('/api/health', requireDatabase, apiLimiter, healthRoutes);
-// app.use('/api/admin', requireDatabase, apiLimiter, adminRoutes);
-
-// // Health check endpoint (works without database)
-// app.get('/api/health-check', (req, res) => {
-//   res.json({ 
-//     status: 'OK', 
-//     timestamp: new Date().toISOString(),
-//     environment: process.env.NODE_ENV || 'development',
-//     database: isMongoConnected ? 'connected' : 'disconnected'
-//   });
-// });
-
-// // Database status endpoint
-// app.get('/api/database-status', (req, res) => {
-//   res.json({
-//     connected: isMongoConnected,
-//     message: isMongoConnected 
-//       ? 'Database connection is active' 
-//       : 'Database connection is not available. Please check MongoDB configuration.'
-//   });
-// });
-
-// // Error handling middleware
-// app.use(errorHandler);
-
-// // 404 handler
-// app.use((req, res) => {
-//   res.status(404).json({ message: 'Route not found' });
-// });
-
-// const PORT = process.env.PORT || 5000;
-
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-//   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-//   if (!isMongoConnected) {
-//     console.log('Note: Server started without database connection');
-//     console.log('To connect to MongoDB, ensure it\'s running or update MONGODB_URI in .env');
-//   }
-// });
-
-// module.exports = app;
-
-
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -382,44 +238,36 @@ const app = express();
 
 // Security middleware
 app.use(helmet());
-// app.use(cors({
-//   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-//   credentials: true
-// }));
-
-
-// app.use(cors({
-//   origin: [
-//     process.env.FRONTEND_URL,
-//     'https://nutri-fit-zxtv.vercel.app',
-//     'http://localhost:5173'
-//   ],
-//   credentials: true,
-//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//   allowedHeaders: ["Content-Type", "Authorization"],
-// }));
-
-
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  'https://nutri-fit-zxtv.vercel.app',
-  'http://localhost:5173'
-].filter(Boolean);
-
-app.use(cors({
+const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Define allowed origins
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://127.0.0.1:5173',
+      'http://localhost:3000',
+      'http://localhost:5174', // Vite sometimes switches to this if 5173 is busy
+      process.env.FRONTEND_URL
+    ];
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      console.log("Blocked by CORS:", origin); // Helps debug
+      callback(new Error('Not allowed by CORS'));
     }
-    return callback(new Error('CORS not allowed'), false);
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
 
-app.options("*", cors());
+app.use(cors(corsOptions));
 
+// Handle preflight (OPTIONS) requests
+app.options('*', cors(corsOptions));
 
 // Rate limiting configuration
 const authLimiter = rateLimit({
@@ -465,7 +313,6 @@ const connectToMongoDB = async () => {
 
 // Attempt to connect to MongoDB
 connectToMongoDB();
-require('./cron/reminderCron');
 
 // Middleware to check database connection for routes that require it
 const requireDatabase = (req, res, next) => {
@@ -479,36 +326,13 @@ const requireDatabase = (req, res, next) => {
 };
 
 // Routes with database requirement check
-// app.use('/api/auth', requireDatabase, authLimiter, authRoutes);
-// app.use('/api/diet', requireDatabase, apiLimiter, dietRoutes);
-// app.use('/api/exercise', requireDatabase, apiLimiter, exerciseRoutes);
-// app.use('/api/chat', requireDatabase, apiLimiter, chatRoutes);
-// app.use('/api/reminders', requireDatabase, apiLimiter, reminderRoutes);
-// app.use('/api/health', requireDatabase, apiLimiter, healthRoutes);
-// app.use('/api/admin', requireDatabase, apiLimiter, adminRoutes);
-
-console.log("Mounting /api/auth");
 app.use('/api/auth', requireDatabase, authLimiter, authRoutes);
-
-console.log("Mounting /api/diet");
 app.use('/api/diet', requireDatabase, apiLimiter, dietRoutes);
-
-console.log("Mounting /api/exercise");
 app.use('/api/exercise', requireDatabase, apiLimiter, exerciseRoutes);
-
-console.log("Mounting /api/chat");
 app.use('/api/chat', requireDatabase, apiLimiter, chatRoutes);
-
-console.log("Mounting /api/reminders");
 app.use('/api/reminders', requireDatabase, apiLimiter, reminderRoutes);
-
-console.log("Mounting /api/health");
 app.use('/api/health', requireDatabase, apiLimiter, healthRoutes);
-
-console.log("Mounting /api/admin");
 app.use('/api/admin', requireDatabase, apiLimiter, adminRoutes);
-
-
 
 // Health check endpoint (works without database)
 app.get('/api/health-check', (req, res) => {
@@ -550,3 +374,198 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+
+
+// const express = require('express');
+// const mongoose = require('mongoose');
+// const cors = require('cors');
+// const helmet = require('helmet');
+// const morgan = require('morgan');
+// const rateLimit = require('express-rate-limit');
+// require('dotenv').config();
+// require('./reminderCron'); // Import the reminder cron job
+// // Import routes
+// const authRoutes = require('./routes/authRoutes');
+// const dietRoutes = require('./routes/dietRoutes');
+// const exerciseRoutes = require('./routes/exerciseRoutes');
+// const chatRoutes = require('./routes/chatRoutes');
+// const reminderRoutes = require('./routes/reminderRoutes');
+// const healthRoutes = require('./routes/healthRoutes');
+// const adminRoutes = require('./routes/adminRoutes');
+
+// // Import middleware
+// const errorHandler = require('./middleware/errorHandler');
+
+// const app = express();
+
+// // Security middleware
+// app.use(helmet());
+// // app.use(cors({
+// //   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+// //   credentials: true
+// // }));
+
+
+// // app.use(cors({
+// //   origin: [
+// //     process.env.FRONTEND_URL,
+// //     'https://nutri-fit-zxtv.vercel.app',
+// //     'http://localhost:5173'
+// //   ],
+// //   credentials: true,
+// //   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+// //   allowedHeaders: ["Content-Type", "Authorization"],
+// // }));
+
+
+// const allowedOrigins = [
+//   process.env.FRONTEND_URL,
+//   'https://nutri-fit-zxtv.vercel.app',
+//   'http://localhost:5173'
+// ].filter(Boolean);
+
+// app.use(cors({
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       return callback(null, true);
+//     }
+//     return callback(new Error('CORS not allowed'), false);
+//   },
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+// }));
+
+// app.options("*", cors());
+
+
+// // Rate limiting configuration
+// const authLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 20, // Limit each IP to 20 auth-related requests per window
+//   message: 'Too many login attempts, please try again after 15 minutes.'
+// });
+
+// const apiLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 200, // Limit each IP to 200 requests per window
+//   message: 'Too many requests, please try again later.'
+// });
+
+// // Logging
+// app.use(morgan('combined'));
+
+// // Body parsing middleware
+// app.use(express.json({ limit: '10mb' }));
+// app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// // MongoDB connection with error handling
+// let isMongoConnected = false;
+
+// const connectToMongoDB = async () => {
+//   try {
+//     const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/healthfitness';
+    
+//     await mongoose.connect(mongoUri, {
+//       serverSelectionTimeoutMS: 5000,
+//       socketTimeoutMS: 45000,
+//     });
+    
+//     console.log('MongoDB connected successfully');
+//     isMongoConnected = true;
+//   } catch (err) {
+//     console.warn('MongoDB connection failed:', err.message);
+//     console.warn('Running in development mode without database connection');
+//     console.warn('Please ensure MongoDB is running or provide a valid MONGODB_URI in your .env file');
+//     isMongoConnected = false;
+//   }
+// };
+
+// // Attempt to connect to MongoDB
+// connectToMongoDB();
+// require('./cron/reminderCron');
+
+// // Middleware to check database connection for routes that require it
+// const requireDatabase = (req, res, next) => {
+//   if (!isMongoConnected) {
+//     return res.status(503).json({ 
+//       error: 'Database unavailable', 
+//       message: 'MongoDB connection is not established. Please check your database configuration.' 
+//     });
+//   }
+//   next();
+// };
+
+// // Routes with database requirement check
+// // app.use('/api/auth', requireDatabase, authLimiter, authRoutes);
+// // app.use('/api/diet', requireDatabase, apiLimiter, dietRoutes);
+// // app.use('/api/exercise', requireDatabase, apiLimiter, exerciseRoutes);
+// // app.use('/api/chat', requireDatabase, apiLimiter, chatRoutes);
+// // app.use('/api/reminders', requireDatabase, apiLimiter, reminderRoutes);
+// // app.use('/api/health', requireDatabase, apiLimiter, healthRoutes);
+// // app.use('/api/admin', requireDatabase, apiLimiter, adminRoutes);
+
+// console.log("Mounting /api/auth");
+// app.use('/api/auth', requireDatabase, authLimiter, authRoutes);
+
+// console.log("Mounting /api/diet");
+// app.use('/api/diet', requireDatabase, apiLimiter, dietRoutes);
+
+// console.log("Mounting /api/exercise");
+// app.use('/api/exercise', requireDatabase, apiLimiter, exerciseRoutes);
+
+// console.log("Mounting /api/chat");
+// app.use('/api/chat', requireDatabase, apiLimiter, chatRoutes);
+
+// console.log("Mounting /api/reminders");
+// app.use('/api/reminders', requireDatabase, apiLimiter, reminderRoutes);
+
+// console.log("Mounting /api/health");
+// app.use('/api/health', requireDatabase, apiLimiter, healthRoutes);
+
+// console.log("Mounting /api/admin");
+// app.use('/api/admin', requireDatabase, apiLimiter, adminRoutes);
+
+
+
+// // Health check endpoint (works without database)
+// app.get('/api/health-check', (req, res) => {
+//   res.json({ 
+//     status: 'OK', 
+//     timestamp: new Date().toISOString(),
+//     environment: process.env.NODE_ENV || 'development',
+//     database: isMongoConnected ? 'connected' : 'disconnected'
+//   });
+// });
+
+// // Database status endpoint
+// app.get('/api/database-status', (req, res) => {
+//   res.json({
+//     connected: isMongoConnected,
+//     message: isMongoConnected 
+//       ? 'Database connection is active' 
+//       : 'Database connection is not available. Please check MongoDB configuration.'
+//   });
+// });
+
+// // Error handling middleware
+// app.use(errorHandler);
+
+// // 404 handler
+// app.use((req, res) => {
+//   res.status(404).json({ message: 'Route not found' });
+// });
+
+// const PORT = process.env.PORT || 5000;
+
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+//   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+//   if (!isMongoConnected) {
+//     console.log('Note: Server started without database connection');
+//     console.log('To connect to MongoDB, ensure it\'s running or update MONGODB_URI in .env');
+//   }
+// });
+
+// module.exports = app;
