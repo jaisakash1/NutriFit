@@ -479,13 +479,36 @@ const requireDatabase = (req, res, next) => {
 };
 
 // Routes with database requirement check
+// app.use('/api/auth', requireDatabase, authLimiter, authRoutes);
+// app.use('/api/diet', requireDatabase, apiLimiter, dietRoutes);
+// app.use('/api/exercise', requireDatabase, apiLimiter, exerciseRoutes);
+// app.use('/api/chat', requireDatabase, apiLimiter, chatRoutes);
+// app.use('/api/reminders', requireDatabase, apiLimiter, reminderRoutes);
+// app.use('/api/health', requireDatabase, apiLimiter, healthRoutes);
+// app.use('/api/admin', requireDatabase, apiLimiter, adminRoutes);
+
+console.log("Mounting /api/auth");
 app.use('/api/auth', requireDatabase, authLimiter, authRoutes);
+
+console.log("Mounting /api/diet");
 app.use('/api/diet', requireDatabase, apiLimiter, dietRoutes);
+
+console.log("Mounting /api/exercise");
 app.use('/api/exercise', requireDatabase, apiLimiter, exerciseRoutes);
+
+console.log("Mounting /api/chat");
 app.use('/api/chat', requireDatabase, apiLimiter, chatRoutes);
+
+console.log("Mounting /api/reminders");
 app.use('/api/reminders', requireDatabase, apiLimiter, reminderRoutes);
+
+console.log("Mounting /api/health");
 app.use('/api/health', requireDatabase, apiLimiter, healthRoutes);
+
+console.log("Mounting /api/admin");
 app.use('/api/admin', requireDatabase, apiLimiter, adminRoutes);
+
+
 
 // Health check endpoint (works without database)
 app.get('/api/health-check', (req, res) => {
