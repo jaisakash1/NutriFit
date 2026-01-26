@@ -386,16 +386,38 @@ app.use(helmet());
 //   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
 //   credentials: true
 // }));
+
+
+// app.use(cors({
+//   origin: [
+//     process.env.FRONTEND_URL,
+//     'https://nutri-fit-zxtv.vercel.app',
+//     'http://localhost:5173'
+//   ],
+//   credentials: true,
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+// }));
+
+
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'https://nutri-fit-zxtv.vercel.app',
+  'http://localhost:5173'
+].filter(Boolean);
+
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL,
-    'https://nutri-fit-zxtv.vercel.app',
-    'http://localhost:5173'
-  ],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('CORS not allowed'), false);
+  },
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
 app.options("*", cors());
 
 
