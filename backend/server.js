@@ -270,7 +270,7 @@ app.use(cors(corsOptions));
 // app.options('*', cors(corsOptions));
 
 
-app.options('(.*)', cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 
 // Rate limiting configuration
 const authLimiter = rateLimit({
