@@ -465,6 +465,7 @@ const connectToMongoDB = async () => {
 
 // Attempt to connect to MongoDB
 connectToMongoDB();
+require('./cron/reminderCron');
 
 // Middleware to check database connection for routes that require it
 const requireDatabase = (req, res, next) => {

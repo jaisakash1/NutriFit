@@ -1,7 +1,7 @@
 const Reminder = require('../models/Reminder');
 const User = require('../models/User');
 const emailService = require('../utils/emailService');
-const cron = require('node-cron');
+// const cron = require('node-cron');
 
 const createReminder = async (req, res) => {
   try {
@@ -255,9 +255,9 @@ async function checkAndSendReminders() {
 
 // Schedule the checkAndSendReminders function to run every minute
 // Adjust the cron schedule as needed
-cron.schedule('* * * * *', checkAndSendReminders, {
-  timezone: 'Asia/Kolkata'
-});
+// cron.schedule('* * * * *', checkAndSendReminders, {
+//   timezone: 'Asia/Kolkata'
+// });
 
 module.exports = {
   createReminder,
