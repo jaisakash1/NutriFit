@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
 
-const API_BASE_URL = 'https://nutrifit-7.onrender.com/api' || 'http://localhost:5000/api';
+const API_BASE_URL = 'https://nutrifit-backend-eqpc.onrender.com/api' || 'http://localhost:5000/api';
 
 
 // const API_BASE_URL =  'http://localhost:5000/api';
