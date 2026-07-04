@@ -35,7 +35,10 @@ const register = async (req, res) => {
     await user.save();
 
     // Send welcome email
-    await emailService.sendWelcomeEmail(user);
+    // await emailService.sendWelcomeEmail(user);
+    emailService.sendWelcomeEmail(user).catch(err => {
+  console.error("Welcome email failed:", err.message);
+});
 
     // Generate token
     const token = generateToken(user._id);
