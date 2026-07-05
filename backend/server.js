@@ -221,7 +221,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
-require('./reminderCron'); // Import the reminder cron job
+require('./cron/reminderCron'); // Reminder cron job
 // Import routes
 const authRoutes = require('./routes/authRoutes');
 const dietRoutes = require('./routes/dietRoutes');

@@ -1,7 +1,7 @@
 const Reminder = require('../models/Reminder');
 const User = require('../models/User');
 const emailService = require('../utils/emailService');
-// const cron = require('node-cron');
+const { calculateNextScheduled } = require('../cron/reminderCron');
 
 const createReminder = async (req, res) => {
   try {
@@ -186,78 +186,6 @@ const sendTestReminder = async (req, res) => {
   }
 };
 
-// Helper function to calculate next scheduled time
-function calculateNextScheduled(time, days, frequency) {
-  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
-
-  const [hours, minutes] = time.split(':').map(Number);
-  
-  if (frequency === 'daily') {
-    const nextTime = new Date();
-    nextTime.setHours(hours, minutes, 0, 0);
-    
-    // If time has passed today, schedule for tomorrow
-    if (nextTime <= now) {
-      nextTime.setDate(nextTime.getDate() + 1);
-    }
-    
-    return nextTime;
-  } else if (frequency === 'weekly' && days && days.length > 0) {
-    const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-    const currentDay = now.getDay();
-    
-    // Find next occurrence
-    for (let i = 0; i < 7; i++) {
-      const checkDay = (currentDay + i) % 7;
-      const dayName = weekdays[checkDay];
-      
-      if (days.includes(dayName)) {
-        const nextTime = new Date();
-        nextTime.setDate(now.getDate() + i);
-        nextTime.setHours(hours, minutes, 0, 0);
-        
-        if (i === 0 && nextTime <= now) {
-          continue; // Skip today if time has passed
-        }
-        
-        return nextTime;
-      }
-    }
-  }
-  
-  return new Date();
-}
-async function checkAndSendReminders() {
-  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
-
-  console.log("Current time:", now);
-
-  const reminders = await Reminder.find({
-    nextScheduled: { $lte: now },
-    isActive: true
-  }).populate('userId');
-
-  for (const reminder of reminders) {
-    console.log("Checking reminder:", reminder);
-    if (reminder.preferences.email) {
-      try {
-        await emailService.sendReminderEmail(reminder.userId, reminder);
-        // Update next scheduled time after sending
-        reminder.nextScheduled = calculateNextScheduled(reminder.time, reminder.days, reminder.frequency);
-        await reminder.save();
-        console.log(`Reminder sent for ${reminder._id}`);
-      } catch (error) {
-        console.error(`Error sending reminder ${reminder._id}:`, error);
-      }
-    }
-  }
-}
-
-// Schedule the checkAndSendReminders function to run every minute
-// Adjust the cron schedule as needed
-// cron.schedule('* * * * *', checkAndSendReminders, {
-//   timezone: 'Asia/Kolkata'
-// });
 
 module.exports = {
   createReminder,
@@ -267,3 +195,4 @@ module.exports = {
   getTodaysReminders,
   sendTestReminder
 };
+

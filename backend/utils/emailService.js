@@ -1,9 +1,12 @@
 const nodemailer = require('nodemailer');
 
+/**
+ * EmailService
+ * Single place for all transactional emails sent by NutriFit.
+ * Uses Gmail SMTP via an app password configured in .env.
+ */
 class EmailService {
   constructor() {
-    // FIX: Use 'service: gmail' to automatically handle host/port/secure settings
-    // This prevents timeout issues on Render/Cloud hosting
     this.transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -13,106 +16,113 @@ class EmailService {
     });
   }
 
+  // ─── Welcome Email ────────────────────────────────────────────────────────
+
   async sendWelcomeEmail(user) {
     try {
       const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: `"NutriFit" <${process.env.EMAIL_USER}>`,
         to: user.email,
-        subject: 'Welcome to Health & Fitness App!',
+        subject: 'Welcome to NutriFit! 🎉',
         html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #4CAF50;">Welcome to Health & Fitness App!</h2>
-            <p>Hello ${user.name},</p>
-            <p>Thank you for joining our health and fitness community. We're excited to help you achieve your fitness goals!</p>
-            <p>Your personalized health journey starts now. Here's what you can expect:</p>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f9f9f9; padding: 24px; border-radius: 8px;">
+            <h2 style="color: #6C47FF;">Welcome to NutriFit, ${user.name}! 🎉</h2>
+            <p>Thank you for joining NutriFit. We're excited to help you achieve your health and fitness goals!</p>
+            <p>Your personalized journey starts now. Here's what you can expect:</p>
             <ul>
-              <li>Personalized diet plans based on your health profile</li>
-              <li>Custom exercise routines for your fitness goals</li>
-              <li>AI-powered health assistant available 24/7</li>
-              <li>Smart reminders to keep you on track</li>
-              <li>Progress tracking and insights</li>
+              <li>🥗 Personalized diet plans based on your health profile</li>
+              <li>💪 Custom exercise routines for your fitness goals</li>
+              <li>🤖 AI-powered health assistant available 24/7</li>
+              <li>⏰ Smart reminders to keep you on track</li>
+              <li>📈 Progress tracking and insights</li>
             </ul>
             <p>Get started by exploring your dashboard and setting up your first meal and exercise plans.</p>
             <p>Stay healthy and strong!</p>
-            <p>Best regards,<br>Health & Fitness Team</p>
+            <p style="margin-top: 24px;">Best regards,<br><strong>The NutriFit Team</strong></p>
           </div>
         `
       };
 
       await this.transporter.sendMail(mailOptions);
-      console.log('Welcome email sent successfully');
+      console.log('✅ Welcome email sent to', user.email);
     } catch (error) {
-      console.error('Error sending welcome email:', error);
-      throw error; // Throw error to see it in logs if needed
+      console.error('❌ Error sending welcome email:', error.message);
+      throw error;
     }
   }
+
+  // ─── Reminder Email ───────────────────────────────────────────────────────
 
   async sendReminderEmail(user, reminder) {
     try {
       const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: `"NutriFit" <${process.env.EMAIL_USER}>`,
         to: user.email,
-        subject: `Reminder: ${reminder.title}`,
+        subject: `⏰ Reminder: ${reminder.title}`,
         html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #FF9800;">Reminder: ${reminder.title}</h2>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f9f9f9; padding: 24px; border-radius: 8px;">
+            <h2 style="color: #FF9800;">⏰ Reminder: ${reminder.title}</h2>
             <p>Hello ${user.name},</p>
             <p>This is a friendly reminder about: <strong>${reminder.title}</strong></p>
-            ${reminder.description ? `<p>${reminder.description}</p>` : ''}
+            ${reminder.description ? `<p style="color:#555;">${reminder.description}</p>` : ''}
             <p>Scheduled time: <strong>${reminder.time}</strong></p>
             <p>Keep up the great work on your health journey!</p>
-            <p>Best regards,<br>Health & Fitness Team</p>
+            <p style="margin-top: 24px;">Best regards,<br><strong>The NutriFit Team</strong></p>
           </div>
         `
       };
 
       await this.transporter.sendMail(mailOptions);
-      console.log('Reminder email sent successfully');
+      console.log('✅ Reminder email sent to', user.email);
     } catch (error) {
-      console.error('Error sending reminder email:', error);
+      console.error('❌ Error sending reminder email:', error.message);
+      throw error;
     }
   }
+
+  // ─── Weekly Summary Email ─────────────────────────────────────────────────
 
   async sendWeeklySummary(user, summaryData) {
     try {
       const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: `"NutriFit" <${process.env.EMAIL_USER}>`,
         to: user.email,
-        subject: 'Your Weekly Health Summary',
+        subject: '📊 Your Weekly NutriFit Summary',
         html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #2196F3;">Your Weekly Health Summary</h2>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f9f9f9; padding: 24px; border-radius: 8px;">
+            <h2 style="color: #2196F3;">📊 Your Weekly NutriFit Summary</h2>
             <p>Hello ${user.name},</p>
             <p>Here's your weekly progress summary:</p>
-            
-            <div style="margin: 20px 0;">
-              <h3>Diet Adherence</h3>
-              <p>Meals logged: ${summaryData.mealsLogged || 0}</p>
-              <p>Average calories: ${summaryData.avgCalories || 0}</p>
+
+            <div style="margin: 20px 0; background:#fff; padding:16px; border-radius:6px;">
+              <h3>🥗 Diet Adherence</h3>
+              <p>Meals logged: <strong>${summaryData.mealsLogged || 0}</strong></p>
+              <p>Average calories: <strong>${summaryData.avgCalories || 0} kcal</strong></p>
             </div>
-            
-            <div style="margin: 20px 0;">
-              <h3>Exercise Progress</h3>
-              <p>Workouts completed: ${summaryData.workoutsCompleted || 0}</p>
-              <p>Total calories burned: ${summaryData.caloriesBurned || 0}</p>
+
+            <div style="margin: 20px 0; background:#fff; padding:16px; border-radius:6px;">
+              <h3>💪 Exercise Progress</h3>
+              <p>Workouts completed: <strong>${summaryData.workoutsCompleted || 0}</strong></p>
+              <p>Total calories burned: <strong>${summaryData.caloriesBurned || 0} kcal</strong></p>
             </div>
-            
-            <div style="margin: 20px 0;">
-              <h3>Overall Progress</h3>
-              <p>Weight trend: ${summaryData.weightTrend || 'No data'}</p>
-              <p>Adherence score: ${summaryData.adherenceScore || 0}%</p>
+
+            <div style="margin: 20px 0; background:#fff; padding:16px; border-radius:6px;">
+              <h3>📈 Overall Progress</h3>
+              <p>Weight trend: <strong>${summaryData.weightTrend || 'No data'}</strong></p>
+              <p>Adherence score: <strong>${summaryData.adherenceScore || 0}%</strong></p>
             </div>
-            
+
             <p>Keep up the excellent work! Remember, consistency is key to achieving your goals.</p>
-            <p>Best regards,<br>Health & Fitness Team</p>
+            <p style="margin-top: 24px;">Best regards,<br><strong>The NutriFit Team</strong></p>
           </div>
         `
       };
 
       await this.transporter.sendMail(mailOptions);
-      console.log('Weekly summary email sent successfully');
+      console.log('✅ Weekly summary email sent to', user.email);
     } catch (error) {
-      console.error('Error sending weekly summary email:', error);
+      console.error('❌ Error sending weekly summary email:', error.message);
+      throw error;
     }
   }
 }
