@@ -98,12 +98,11 @@ const ChatPage = () => {
     } catch (error) {
       console.error('Error loading chat history:', error);
       
-      // Retry up to 3 times with exponential backoff if it's the initial load
       if (page === 1 && retryCount < 3) {
         console.log(`Retrying chat history load (attempt ${retryCount + 1})...`);
         setTimeout(() => {
           loadChatHistory(page, retryCount + 1);
-        }, Math.pow(2, retryCount) * 1000); // Exponential backoff: 1s, 2s, 4s
+        }, Math.pow(2, retryCount) * 1000);
       } else {
         toast.error('Failed to load chat history');
       }
@@ -156,47 +155,9 @@ const ChatPage = () => {
     sendMessage(question);
   };
 
-  const renderMessage = (message) => {
-    const isUser = message.type === 'user';
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}
-      >
-        <div className={`flex ${isUser ? 'flex-row-reverse' : 'flex-row'} items-start space-x-2 ${isUser ? 'space-x-reverse' : ''}`}>
-          <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-            isUser 
-              ? 'bg-gradient-to-br from-green-400 to-blue-500' 
-              : 'bg-gradient-to-br from-purple-500 to-blue-600'
-          }`}>
-            {isUser ? (
-              <User className="w-4 h-4 text-white" />
-            ) : (
-              <Bot className="w-4 h-4 text-white" />
-            )}
-          </div>
-          
-          <div className={`px-3 py-2 rounded-xl max-w-full ${
-            isUser
-              ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
-              : 'bg-white shadow-sm border border-gray-200 text-gray-900'
-          }`}>
-            <p className="whitespace-pre-wrap text-sm">{message.message}</p>
-            <p className={`text-[10px] mt-1 ${
-              isUser ? 'text-blue-100' : 'text-gray-500'
-            }`}>
-              {format(new Date(message.timestamp), 'HH:mm')}
-            </p>
-          </div>
-        </div>
-      </motion.div>
-    );
-  };
-
   if (loadingHistory) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="flex items-center justify-center bg-gray-50" style={{ height: 'calc(100vh - 4rem)' }}>
         <BackgroundDecorations />
         <LoadingSpinner size="lg" text="Loading chat..." />
       </div>
@@ -204,38 +165,43 @@ const ChatPage = () => {
   }
 
   return (
-    <div className="h-screen bg-gray-100 flex items-center justify-center p-4">
+    /* Outer wrapper: fills the space below the sticky navbar (h-16 = 4rem) */
+    <div
+      className="bg-gray-100 flex items-stretch justify-center"
+      style={{ height: 'calc(100vh - 4rem)' }}
+    >
       <BackgroundDecorations />
-      
-      {/* Main Chat Container */}
-      <div className="w-full max-w-[400px] h-full flex flex-col bg-white rounded-3xl shadow-2xl overflow-hidden">
-        {/* Header */}
-        <div className="flex-shrink-0 bg-blue-600 text-white p-4 flex items-center justify-between">
+
+      {/* Main Chat Container — full width on mobile, capped at 2xl on desktop */}
+      <div className="w-full max-w-2xl flex flex-col bg-white shadow-2xl sm:my-4 sm:rounded-3xl overflow-hidden">
+
+        {/* ── Header ── */}
+        <div className="flex-shrink-0 bg-blue-600 text-white px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="relative">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+              <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center">
                 <Bot className="w-5 h-5" />
               </div>
-              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 border-2 border-blue-600 rounded-full"></span>
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 border-2 border-blue-600 rounded-full" />
             </div>
             <div>
-              <h1 className="text-base font-semibold">AI Health Assistant</h1>
-              <p className="text-xs text-blue-200">Online</p>
+              <h1 className="text-sm font-semibold leading-tight">AI Health Assistant</h1>
+              <p className="text-xs text-blue-200">Online · NutriFit AI</p>
             </div>
           </div>
         </div>
 
-        {/* Chat Messages */}
-        <div 
+        {/* ── Messages ── */}
+        <div
           ref={chatContainerRef}
-          className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50"
+          className="flex-1 overflow-y-auto px-3 py-3 space-y-3 bg-gray-50"
         >
           {hasMore && (
             <div className="flex justify-center mb-2">
               <Button
                 onClick={loadMoreHistory}
                 variant="outline"
-                className="flex items-center space-x-1.5 text-xs py-1 px-2 bg-white/80"
+                className="flex items-center space-x-1.5 text-xs py-1 px-3 bg-white/80"
               >
                 <ArrowDown className="w-3 h-3" />
                 <span>Load More</span>
@@ -249,32 +215,33 @@ const ChatPage = () => {
               animate={{ opacity: 1, y: 0 }}
               className="text-center py-6"
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="relative w-14 h-14 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <MessageSquare className="w-6 h-6 text-blue-500" />
-                <div className="absolute inset-0 rounded-full border-2 border-blue-200 animate-ping opacity-20"></div>
+                <div className="absolute inset-0 rounded-full border-2 border-blue-200 animate-ping opacity-20" />
               </div>
-              <h3 className="text-base font-semibold text-gray-900 mb-2">
-                Start a conversation
-              </h3>
-              <p className="text-sm text-gray-600 mb-4 max-w-sm mx-auto">
-                I'm your personal AI health assistant, ready to provide tailored advice for your health and fitness journey.
+              <h3 className="text-base font-semibold text-gray-900 mb-1">Start a conversation</h3>
+              <p className="text-sm text-gray-500 mb-4 max-w-xs mx-auto px-2">
+                I'm your personal AI health assistant, ready to help with diet, exercise, and wellness.
               </p>
-              
-              {/* Quick Suggestions */}
+
+              {/* Suggestions grid — 2 cols on sm+ */}
               {suggestions.length > 0 && (
-                <div className="max-w-sm mx-auto px-4">
-                  <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center justify-center">
-                    <Lightbulb className="w-3.5 h-3.5 mr-1.5 text-yellow-500" />
+                <div className="max-w-lg mx-auto px-2">
+                  <h4 className="text-xs font-medium text-gray-700 mb-2 flex items-center justify-center">
+                    <Lightbulb className="w-3.5 h-3.5 mr-1 text-yellow-500" />
                     Suggested Topics
                   </h4>
-                  <div className="grid grid-cols-1 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {suggestions.map((category, index) => (
-                      <div key={index} className="bg-white p-2.5 rounded-lg shadow-sm border border-gray-100 hover:border-blue-200 transition-colors">
-                        <h5 className="font-medium text-gray-900 mb-2 text-xs flex items-center">
-                          {category.category === 'Diet' && <Apple className="w-3.5 h-3.5 mr-1.5 text-green-500" />}
+                      <div
+                        key={index}
+                        className="bg-white p-2.5 rounded-xl shadow-sm border border-gray-100 hover:border-blue-200 transition-colors text-left"
+                      >
+                        <h5 className="font-medium text-gray-800 mb-1.5 text-xs flex items-center">
+                          {category.category === 'Diet'     && <Apple    className="w-3.5 h-3.5 mr-1.5 text-green-500" />}
                           {category.category === 'Exercise' && <Dumbbell className="w-3.5 h-3.5 mr-1.5 text-blue-500" />}
-                          {category.category === 'Health' && <Heart className="w-3.5 h-3.5 mr-1.5 text-pink-500" />}
-                          {category.category === 'Progress' && <Brain className="w-3.5 h-3.5 mr-1.5 text-purple-500" />}
+                          {category.category === 'Health'   && <Heart    className="w-3.5 h-3.5 mr-1.5 text-pink-500" />}
+                          {category.category === 'Progress' && <Brain    className="w-3.5 h-3.5 mr-1.5 text-purple-500" />}
                           {category.category}
                         </h5>
                         <div className="space-y-1">
@@ -282,7 +249,7 @@ const ChatPage = () => {
                             <button
                               key={qIndex}
                               onClick={() => handleSuggestionClick(question)}
-                              className="w-full text-left p-1.5 bg-gray-50/80 border border-gray-100 rounded-md hover:border-blue-200 hover:bg-blue-50/50 transition-all duration-200 text-xs"
+                              className="w-full text-left p-1.5 bg-gray-50 border border-gray-100 rounded-lg hover:border-blue-300 hover:bg-blue-50/50 transition-all duration-150 text-xs text-gray-700 leading-snug"
                             >
                               {question}
                             </button>
@@ -296,107 +263,112 @@ const ChatPage = () => {
             </motion.div>
           ) : (
             <>
-              {messages.map((message, index) => (
-                <div key={index} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} max-w-[85%]`}>
-                  <div className={`flex ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'} items-start space-x-2 ${message.type === 'user' ? 'space-x-reverse' : ''}`}>
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      message.type === 'user' 
-                        ? 'bg-gradient-to-br from-green-400 to-blue-500' 
-                        : 'bg-gradient-to-br from-purple-500 to-blue-600'
-                    }`}>
-                      {message.type === 'user' ? (
-                        <User className="w-3 h-3 text-white" />
-                      ) : (
-                        <Bot className="w-3 h-3 text-white" />
-                      )}
-                    </div>
-                    
-                    <div className={`px-3 py-2 rounded-lg max-w-full ${
-                      message.type === 'user'
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-white shadow-sm border border-gray-100 text-gray-900'
-                    }`}>
-                      <p className="whitespace-pre-wrap text-sm">{message.message}</p>
-                      <p className={`text-[10px] mt-1 ${
-                        message.type === 'user' ? 'text-blue-100' : 'text-gray-500'
+              {messages.map((message, index) => {
+                const isUser = message.type === 'user';
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`flex w-full ${isUser ? 'justify-end' : 'justify-start'}`}
+                  >
+                    <div className={`flex ${isUser ? 'flex-row-reverse' : 'flex-row'} items-end gap-1.5 max-w-[85%] sm:max-w-[75%]`}>
+                      {/* Avatar */}
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mb-0.5 ${
+                        isUser
+                          ? 'bg-gradient-to-br from-green-400 to-blue-500'
+                          : 'bg-gradient-to-br from-purple-500 to-blue-600'
                       }`}>
-                        {format(new Date(message.timestamp), 'HH:mm')}
-                      </p>
+                        {isUser
+                          ? <User className="w-3 h-3 text-white" />
+                          : <Bot  className="w-3 h-3 text-white" />
+                        }
+                      </div>
+
+                      {/* Bubble */}
+                      <div className={`px-3 py-2 rounded-2xl ${
+                        isUser
+                          ? 'bg-blue-500 text-white rounded-br-sm'
+                          : 'bg-white shadow-sm border border-gray-100 text-gray-900 rounded-bl-sm'
+                      }`}>
+                        <p className="whitespace-pre-wrap text-sm leading-relaxed break-words">{message.message}</p>
+                        <p className={`text-[10px] mt-0.5 ${isUser ? 'text-blue-100 text-right' : 'text-gray-400'}`}>
+                          {format(new Date(message.timestamp), 'HH:mm')}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </>
           )}
-          
+
+          {/* Typing indicator */}
           {loading && (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex justify-start max-w-[85%]"
+              className="flex justify-start"
             >
-              <div className="flex items-start space-x-2">
+              <div className="flex items-end gap-1.5">
                 <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center">
                   <Loader className="w-3 h-3 text-white animate-spin" />
                 </div>
-                <div className="bg-white shadow-sm border border-gray-100 rounded-lg px-3 py-2">
-                  <div className="flex items-center space-x-1">
-                    <div className="flex space-x-1">
-                      <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                    </div>
+                <div className="bg-white shadow-sm border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3">
+                  <div className="flex space-x-1">
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" />
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }} />
+                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
                   </div>
                 </div>
               </div>
             </motion.div>
           )}
+
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Area */}
-        <div className="bg-white border-t border-gray-200 p-3">
-          <div className="flex items-center space-x-2">
-            <div className="flex-1 relative">
-              <input
-                type="text"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Type a message..."
-                className="w-full px-4 py-2 text-sm border border-gray-200 rounded-full focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                disabled={loading}
-              />
-            </div>
-            <Button
-              onClick={() => sendMessage()}
-              disabled={!newMessage.trim() || loading}
-              className="w-10 h-10 bg-blue-600 hover:bg-blue-700 rounded-full flex items-center justify-center flex-shrink-0"
-            >
-              <Send className="w-4 h-4 text-white" />
-            </Button>
-          </div>
-          
-          {/* Active Chat Quick Suggestions */}
+        {/* ── Input Area ── */}
+        <div className="flex-shrink-0 bg-white border-t border-gray-100 px-3 py-2">
+
+          {/* Quick suggestion chips — horizontal scroll on mobile */}
           {messages.length > 0 && suggestions.length > 0 && (
-            <div className="mt-2">
-              <div className="flex flex-wrap gap-1.5">
-                {suggestions.flatMap(category => 
-                  category.questions.slice(0, 1).map((question, index) => (
-                    <button
-                      key={`${category.category}-${index}`}
-                      onClick={() => handleSuggestionClick(question)}
-                      className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors flex items-center space-x-1"
-                      disabled={loading}
-                    >
-                      <Lightbulb className="w-3 h-3 text-yellow-500" />
-                      <span>{question}</span>
-                    </button>
-                  ))
-                )}
-              </div>
+            <div className="flex gap-1.5 overflow-x-auto pb-2 scrollbar-none">
+              {suggestions.flatMap(category =>
+                category.questions.slice(0, 1).map((question, index) => (
+                  <button
+                    key={`${category.category}-${index}`}
+                    onClick={() => handleSuggestionClick(question)}
+                    className="flex-shrink-0 flex items-center gap-1 px-2.5 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors whitespace-nowrap"
+                    disabled={loading}
+                  >
+                    <Lightbulb className="w-3 h-3 text-yellow-500 flex-shrink-0" />
+                    <span className="max-w-[120px] truncate">{question}</span>
+                  </button>
+                ))
+              )}
             </div>
           )}
+
+          {/* Text input + send button */}
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Type a message..."
+              className="flex-1 min-w-0 px-4 py-2 text-sm border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all disabled:opacity-60"
+              disabled={loading}
+            />
+            <button
+              onClick={() => sendMessage()}
+              disabled={!newMessage.trim() || loading}
+              className="w-9 h-9 sm:w-10 sm:h-10 flex-shrink-0 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-full flex items-center justify-center transition-colors"
+            >
+              <Send className="w-4 h-4 text-white" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
