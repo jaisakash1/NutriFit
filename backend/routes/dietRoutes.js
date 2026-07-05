@@ -1,5 +1,6 @@
 const express = require('express');
 const { auth } = require('../middleware/auth');
+const asyncHandler = require('../middleware/asyncHandler');
 const {
   generateDietPlan,
   getDietPlans,
@@ -10,18 +11,6 @@ const {
 } = require('../controllers/dietController');
 
 const router = express.Router();
-
-// Error handling middleware
-const asyncHandler = (fn) => (req, res, next) => {
-  Promise.resolve(fn(req, res, next)).catch((error) => {
-    console.error('Route error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Internal server error',
-      error: error.message
-    });
-  });
-};
 
 // Validation middleware
 const validateDietPlanRequest = (req, res, next) => {
@@ -40,8 +29,7 @@ const validateDietPlanRequest = (req, res, next) => {
 // All routes require authentication
 router.use(auth);
 
-// Apply validation and error handling to routes
-router.post('/generate', validateDietPlanRequest, asyncHandler(generateDietPlan));
+router.post('/generate', asyncHandler(generateDietPlan));
 router.get('/', asyncHandler(getDietPlans));
 router.get('/:id', asyncHandler(getDietPlan));
 router.put('/:id', asyncHandler(updateDietPlan));
