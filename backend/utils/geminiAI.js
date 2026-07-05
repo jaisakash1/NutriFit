@@ -363,13 +363,12 @@ Important:
   }
 
   calculateDifficulty(healthProfile) {
-    // Calculate difficulty based on fitness goal and lifestyle
     const difficultyMap = {
-      'Weight Loss': 'Moderate',
-      'Muscle Gain': 'Challenging',
-      'General Fitness': 'Moderate',
-      'Endurance': 'Moderate',
-      'Strength': 'Challenging'
+      weight_loss:  'Moderate',
+      muscle_gain:  'Challenging',
+      maintenance:  'Moderate',
+      endurance:    'Moderate',
+      strength:     'Challenging'
     };
     return difficultyMap[healthProfile.fitnessGoal] || 'Moderate';
   }
@@ -444,5 +443,5 @@ Respond in a natural, conversational way while keeping the response focused and 
   }
 }
 
-// Export the class instead of an instance
-module.exports = GeminiAI;
+// Export a singleton — initialized once at startup, reused across all requests
+module.exports = new GeminiAI();
