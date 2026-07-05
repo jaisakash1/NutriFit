@@ -15,6 +15,39 @@ class GeminiAI {
     }
   }
 
+  /**
+   * Calls model.generateContent with automatic retry on transient errors (503, 429).
+   * Retries up to maxRetries times with exponential backoff.
+   */
+  async generateWithRetry(prompt, maxRetries = 3) {
+    let lastError;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const result = await this.model.generateContent(prompt);
+        if (!result || !result.response) {
+          throw new Error('No response received from Gemini AI');
+        }
+        return result;
+      } catch (error) {
+        lastError = error;
+        const isRetryable =
+          error.status === 503 ||
+          error.status === 429 ||
+          (error.message && (error.message.includes('503') || error.message.includes('429')));
+
+        if (isRetryable && attempt < maxRetries) {
+          const delayMs = Math.pow(2, attempt - 1) * 1000; // 1s, 2s, 4s
+          console.warn(`⚠️  Gemini ${error.status || 'error'} on attempt ${attempt}/${maxRetries}. Retrying in ${delayMs / 1000}s...`);
+          await new Promise(resolve => setTimeout(resolve, delayMs));
+        } else {
+          // Non-retryable or out of retries
+          throw error;
+        }
+      }
+    }
+    throw lastError;
+  }
+
   parseAIResponse(rawText) {
     try {
       if (!rawText) {
@@ -223,10 +256,7 @@ Requirements:
 9. RESPOND ONLY WITH THE JSON OBJECT, NO ADDITIONAL TEXT OR FORMATTING`;
 
       console.log('Sending diet plan generation prompt to Gemini...');
-      const result = await this.model.generateContent(prompt);
-      if (!result || !result.response) {
-        throw new Error('No response received from Gemini AI');
-      }
+      const result = await this.generateWithRetry(prompt);
 
       const response = await result.response;
       const rawText = await response.text();
@@ -332,10 +362,7 @@ Important:
 - Keep exercises appropriate for ${healthProfile.lifestyle} lifestyle`;
 
       console.log('Sending exercise plan generation prompt to Gemini...');
-      const result = await this.model.generateContent(prompt);
-      if (!result || !result.response) {
-        throw new Error('No response received from Gemini AI');
-      }
+      const result = await this.generateWithRetry(prompt);
 
       const response = await result.response;
       const rawText = await response.text();
@@ -423,12 +450,8 @@ Response Requirements:
 
 Respond in a natural, conversational way while keeping the response focused and practical.`;
 
-      console.log('Sending prompt to Gemini:', prompt);
-      
-      const result = await this.model.generateContent(prompt);
-      if (!result || !result.response) {
-        throw new Error('No response received from Gemini AI');
-      }
+      console.log('Sending chat prompt to Gemini...');
+      const result = await this.generateWithRetry(prompt);
       
       const response = await result.response;
       const text = await response.text();
