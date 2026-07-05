@@ -69,15 +69,13 @@ const dietPlanSchema = new mongoose.Schema({
     item: String,
     quantity: String,
     category: String,
-    estimatedPrice: Number,
-    affiliateLinks: [{
-      store: String,
-      url: String,
-      price: Number
-    }]
+    estimatedPrice: Number
   }]
 }, {
   timestamps: true
 });
+
+// Index for efficient queries by user
+dietPlanSchema.index({ userId: 1, createdAt: -1 });
 
 module.exports = mongoose.model('DietPlan', dietPlanSchema);

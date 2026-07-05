@@ -80,4 +80,7 @@ const exercisePlanSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Index for efficient queries by user
+exercisePlanSchema.index({ userId: 1, createdAt: -1 });
+
 module.exports = mongoose.model('ExercisePlan', exercisePlanSchema);

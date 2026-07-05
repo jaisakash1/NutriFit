@@ -43,4 +43,9 @@ const reminderSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Index for user reminder queries
+reminderSchema.index({ userId: 1, isActive: 1 });
+// Critical: used by the cron job every minute — must be indexed
+reminderSchema.index({ nextScheduled: 1, isActive: 1 });
+
 module.exports = mongoose.model('Reminder', reminderSchema);

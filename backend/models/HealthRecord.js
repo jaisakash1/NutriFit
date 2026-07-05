@@ -42,7 +42,7 @@ const healthRecordSchema = new mongoose.Schema({
     max: 10
   },
   meals: [{
-    type: {
+    mealType: {
       type: String,
       enum: ['breakfast', 'lunch', 'dinner', 'snack']
     },
