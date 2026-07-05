@@ -78,6 +78,7 @@ async function checkAndSendReminders() {
 
     try {
       await emailService.sendReminderEmail(reminder.userId, reminder);
+      reminder.lastSent = now;
       reminder.nextScheduled = calculateNextScheduled(reminder.time, reminder.days, reminder.frequency);
       await reminder.save();
       console.log(`✅ Reminder sent for "${reminder.title}" (${reminder._id})`);
