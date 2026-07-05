@@ -1,6 +1,6 @@
 const ExercisePlan = require('../models/ExercisePlan');
 const User = require('../models/User');
-const GeminiAI = require('../utils/geminiAI');
+const geminiAI = require('../utils/geminiAI'); // singleton
 
 const generateExercisePlan = async (req, res) => {
   try {
@@ -32,8 +32,7 @@ const generateExercisePlan = async (req, res) => {
     }
 
     try {
-      // Initialize GeminiAI and generate exercise plan
-      const geminiAI = new GeminiAI();
+      // Generate exercise plan using the shared GeminiAI singleton
       const aiPlan = await geminiAI.generateExercisePlan(user, planType);
       
       if (!aiPlan || !aiPlan.weeklySchedule) {

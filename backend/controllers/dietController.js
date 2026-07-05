@@ -1,10 +1,10 @@
 const DietPlan = require('../models/DietPlan');
 const User = require('../models/User');
-const GeminiAI = require('../utils/geminiAI');
+const geminiAI = require('../utils/geminiAI'); // singleton
 
 const generateDietPlan = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
     const userRole = req.user.role;
     console.log(`Generating AI diet plan for user: ${userId}, role: ${userRole}`);
 
@@ -66,7 +66,6 @@ const generateDietPlan = async (req, res) => {
 
 
     // Generate diet plan using GeminiAI
-    const geminiAI = new GeminiAI();
     const aiResponse = await geminiAI.generateDietPlan(user);
 
     if (!aiResponse || !aiResponse.weeklyPlan || !Array.isArray(aiResponse.weeklyPlan)) {

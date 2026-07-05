@@ -1,23 +1,11 @@
-const GeminiAI = require('../utils/geminiAI');
+const geminiAI = require('../utils/geminiAI'); // singleton
 const User = require('../models/User');
 const Chat = require('../models/Chat');
-
-let geminiAI;
-try {
-  geminiAI = new GeminiAI();
-  console.log('GeminiAI initialized successfully in chat controller');
-} catch (error) {
-  console.error('Failed to initialize GeminiAI:', error);
-}
 
 const chatWithAI = async (req, res) => {
   try {
     const { message } = req.body;
     const userId = req.user.id;
-
-    if (!geminiAI) {
-      throw new Error('GeminiAI is not properly initialized');
-    }
 
     if (!message || message.trim().length === 0) {
       return res.status(400).json({ message: 'Message is required' });
