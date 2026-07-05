@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  Plus, 
-  Dumbbell, 
-  Calendar, 
-  Clock, 
+import {
+  Plus,
+  Dumbbell,
+  Calendar,
+  Clock,
   Target,
   Star,
   Users,
@@ -37,12 +37,12 @@ import { format } from 'date-fns';
 const BackgroundIcons = () => (
   <div className="fixed inset-0 overflow-hidden pointer-events-none opacity-[0.04]">
     {/* Strength Training */}
-    <motion.div 
+    <motion.div
       className="absolute top-[12%] left-[8%] text-orange-600"
-      animate={{ 
+      animate={{
         y: [0, -15, 0]
       }}
-      transition={{ 
+      transition={{
         duration: 8,
         repeat: Infinity,
         ease: "easeInOut"
@@ -50,14 +50,14 @@ const BackgroundIcons = () => (
     >
       <Dumbbell size={52} strokeWidth={1.5} />
     </motion.div>
-    
+
     {/* Weight Training */}
-    <motion.div 
+    <motion.div
       className="absolute top-[30%] right-[12%] text-blue-600"
-      animate={{ 
+      animate={{
         y: [0, 12, 0]
       }}
-      transition={{ 
+      transition={{
         duration: 7,
         repeat: Infinity,
         ease: "easeInOut",
@@ -66,14 +66,14 @@ const BackgroundIcons = () => (
     >
       <Weight size={48} strokeWidth={1.5} />
     </motion.div>
-    
+
     {/* Timer */}
-    <motion.div 
+    <motion.div
       className="absolute bottom-[35%] left-[15%] text-purple-500"
-      animate={{ 
+      animate={{
         y: [0, -12, 0]
       }}
-      transition={{ 
+      transition={{
         duration: 9,
         repeat: Infinity,
         ease: "easeInOut",
@@ -82,14 +82,14 @@ const BackgroundIcons = () => (
     >
       <Timer size={44} strokeWidth={1.5} />
     </motion.div>
-    
+
     {/* Running */}
-    <motion.div 
+    <motion.div
       className="absolute top-[45%] right-[18%] text-green-500"
-      animate={{ 
+      animate={{
         y: [0, 10, 0]
       }}
-      transition={{ 
+      transition={{
         duration: 8,
         repeat: Infinity,
         ease: "easeInOut",
@@ -98,14 +98,14 @@ const BackgroundIcons = () => (
     >
       <Footprints size={46} strokeWidth={1.5} />
     </motion.div>
-    
+
     {/* Cycling */}
-    <motion.div 
+    <motion.div
       className="absolute bottom-[25%] right-[22%] text-cyan-600"
-      animate={{ 
+      animate={{
         y: [0, -10, 0]
       }}
-      transition={{ 
+      transition={{
         duration: 7,
         repeat: Infinity,
         ease: "easeInOut",
@@ -114,14 +114,14 @@ const BackgroundIcons = () => (
     >
       <Bike size={50} strokeWidth={1.5} />
     </motion.div>
-    
+
     {/* Achievement */}
-    <motion.div 
+    <motion.div
       className="absolute top-[35%] left-[20%] text-yellow-500"
-      animate={{ 
+      animate={{
         y: [0, 15, 0]
       }}
-      transition={{ 
+      transition={{
         duration: 8,
         repeat: Infinity,
         ease: "easeInOut",
@@ -132,12 +132,12 @@ const BackgroundIcons = () => (
     </motion.div>
 
     {/* Heart Rate */}
-    <motion.div 
+    <motion.div
       className="absolute bottom-[20%] left-[25%] text-red-500"
-      animate={{ 
+      animate={{
         y: [0, -8, 0]
       }}
-      transition={{ 
+      transition={{
         duration: 7,
         repeat: Infinity,
         ease: "easeInOut",
@@ -148,12 +148,12 @@ const BackgroundIcons = () => (
     </motion.div>
 
     {/* Performance */}
-    <motion.div 
+    <motion.div
       className="absolute top-[60%] right-[15%] text-emerald-500"
-      animate={{ 
+      animate={{
         y: [0, 12, 0]
       }}
-      transition={{ 
+      transition={{
         duration: 8,
         repeat: Infinity,
         ease: "easeInOut",
@@ -164,12 +164,12 @@ const BackgroundIcons = () => (
     </motion.div>
 
     {/* Sportswear */}
-    <motion.div 
+    <motion.div
       className="absolute top-[20%] left-[30%] text-indigo-500"
-      animate={{ 
+      animate={{
         y: [0, -10, 0]
       }}
-      transition={{ 
+      transition={{
         duration: 9,
         repeat: Infinity,
         ease: "easeInOut",
@@ -251,7 +251,7 @@ const CreateCustomPlanModal = ({ isOpen, onClose, onSubmit }) => {
     //         <X className="w-6 h-6" />
     //       </button>
     //     </div>
-       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
       <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto p-4 sm:p-6">
         <div className="flex justify-between items-center mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Create Custom Exercise Plan</h2>
@@ -261,10 +261,10 @@ const CreateCustomPlanModal = ({ isOpen, onClose, onSubmit }) => {
         </div>
 
         {/* <form onSubmit={handleSubmit} className="space-y-6"> */}
-           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           {/* Basic Plan Info */}
           {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Plan Name
@@ -337,7 +337,7 @@ const CreateCustomPlanModal = ({ isOpen, onClose, onSubmit }) => {
           {/* Weekly Schedule */}
           <div className="border-t pt-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Weekly Schedule</h3>
-            
+
             {/* Existing Sessions */}
             {formData.weeklySchedule.length > 0 && (
               <div className="mb-6 space-y-4">
@@ -479,7 +479,7 @@ const CreateCustomPlanModal = ({ isOpen, onClose, onSubmit }) => {
 
           {/* <div className="flex justify-end space-x-4">
             <Button type="button" variant="outline" onClick={onClose}> */}
-                <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4">
+          <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4">
             <Button type="button" variant="outline" onClick={onClose} className="w-full sm:w-auto">
               Cancel
             </Button>
@@ -487,7 +487,7 @@ const CreateCustomPlanModal = ({ isOpen, onClose, onSubmit }) => {
               type="submit"
               disabled={formData.weeklySchedule.length === 0}
             > */}
-             <Button
+            <Button
               type="submit"
               disabled={formData.weeklySchedule.length === 0}
               className="w-full sm:w-auto"
@@ -505,7 +505,7 @@ const CreateCustomPlanModal = ({ isOpen, onClose, onSubmit }) => {
 const ExerciseList = () => {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [generating, setGenerating] = useState(false);
+  const [generatingType, setGeneratingType] = useState(null); // 'home' | 'gym' | null
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -525,7 +525,7 @@ const ExerciseList = () => {
   };
 
   const generateNewPlan = async (planType = 'home') => {
-    setGenerating(true);
+    setGeneratingType(planType);
     try {
       const response = await exerciseAPI.generatePlan({
         planType,
@@ -535,23 +535,23 @@ const ExerciseList = () => {
       navigate(`/exercise/${response.data.exercisePlan._id}`);
     } catch (error) {
       console.error('Generate plan error:', error);
-      
+
       // Handle specific error cases
       if (error.response) {
         const { status, data } = error.response;
-        
+
         if (status === 401) {
           toast.error('Please log in to generate a plan');
           navigate('/login');
           return;
         }
-        
+
         if (status === 400 && data.code === 'HEALTH_PROFILE_REQUIRED') {
           toast.error('Please complete your health profile first');
           navigate('/profile');
           return;
         }
-        
+
         toast.error(data.message || 'Failed to generate exercise plan');
       } else if (error.request) {
         toast.error('Network error. Please check your connection.');
@@ -559,13 +559,13 @@ const ExerciseList = () => {
         toast.error('An unexpected error occurred');
       }
     } finally {
-      setGenerating(false);
+      setGeneratingType(null);
     }
   };
 
   const deletePlan = async (id) => {
     if (!confirm('Are you sure you want to delete this exercise plan?')) return;
-    
+
     try {
       await exerciseAPI.deletePlan(id);
       setPlans(plans.filter(plan => plan._id !== id));
@@ -596,18 +596,18 @@ const ExerciseList = () => {
 
   return (
     // <div className="min-h-screen bg-gray-50 py-8">
-     <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
       <BackgroundIcons />
       {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
        */}
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         {/* Header */}
         {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex justify-between items-center mb-8"
         > */}
-         <motion.div
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4"
@@ -621,7 +621,7 @@ const ExerciseList = () => {
               AI-powered and custom workout plans for your fitness goals
             </p>
           </div> */}
-           <div>
+          <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center">
               <Dumbbell className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-orange-500" />
               Exercise Plans
@@ -630,7 +630,7 @@ const ExerciseList = () => {
               AI-powered and custom workout plans for your fitness goals
             </p>
           </div>
-{/*           
+          {/*           
           <div className="flex space-x-3">
             <Button
               onClick={() => setIsCreateModalOpen(true)}
@@ -656,19 +656,21 @@ const ExerciseList = () => {
             </Button>
           </div>
         </motion.div> */}
-           <div className="flex flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
+          <div className="flex flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
             <Button
               onClick={() => setIsCreateModalOpen(true)}
               variant="outline"
               size="sm"
               className="flex-1 sm:flex-none"
+              disabled={generatingType !== null}
             >
               <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">Custom</span>
             </Button>
             <Button
               onClick={() => generateNewPlan('home')}
-              loading={generating}
+              loading={generatingType === 'home'}
+              disabled={generatingType !== null}
               variant="outline"
               size="sm"
               className="flex-1 sm:flex-none"
@@ -679,7 +681,8 @@ const ExerciseList = () => {
             </Button>
             <Button
               onClick={() => generateNewPlan('gym')}
-              loading={generating}
+              loading={generatingType === 'gym'}
+              disabled={generatingType !== null}
               size="sm"
               className="flex-1 sm:flex-none"
             >
@@ -708,7 +711,7 @@ const ExerciseList = () => {
             transition={{ delay: 0.1 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           > */}
-                  {plans.length > 0 ? (
+        {plans.length > 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -727,22 +730,20 @@ const ExerciseList = () => {
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
                       <div className="flex items-center mb-2">
-                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                          plan.planType === 'gym' 
+                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${plan.planType === 'gym'
                             ? 'bg-orange-100 text-orange-800'
                             : plan.planType === 'home'
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-blue-100 text-blue-800'
-                        }`}>
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-blue-100 text-blue-800'
+                          }`}>
                           {plan.planType.toUpperCase()}
                         </span>
-                        <span className={`ml-2 px-2 py-1 text-xs font-medium rounded-full ${
-                          plan.difficulty === 'beginner'
+                        <span className={`ml-2 px-2 py-1 text-xs font-medium rounded-full ${plan.difficulty === 'beginner'
                             ? 'bg-green-100 text-green-800'
                             : plan.difficulty === 'intermediate'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-red-100 text-red-800'
-                        }`}>
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-red-100 text-red-800'
+                          }`}>
                           {plan.difficulty}
                         </span>
                       </div>
@@ -821,7 +822,7 @@ const ExerciseList = () => {
           //   animate={{ opacity: 1, y: 0 }}
           //   className="text-center py-16"
           // >
-               <motion.div
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-8 sm:py-16"
@@ -838,7 +839,8 @@ const ExerciseList = () => {
             <div className="flex justify-center space-x-4">
               <Button
                 onClick={() => generateNewPlan('home')}
-                loading={generating}
+                loading={generatingType === 'home'}
+                disabled={generatingType !== null}
                 variant="outline"
                 size="lg"
               >
@@ -847,7 +849,8 @@ const ExerciseList = () => {
               </Button>
               <Button
                 onClick={() => generateNewPlan('gym')}
-                loading={generating}
+                loading={generatingType === 'gym'}
+                disabled={generatingType !== null}
                 size="lg"
               >
                 <Plus className="w-5 h-5 mr-2" />
@@ -892,7 +895,7 @@ const ExercisePlanDetail = ({ planId }) => {
           weeklySchedule: response.data.exercisePlan.weeklySchedule || []
         };
         setPlan(exercisePlan);
-        
+
         // Set initial total exercises count
         const totalExercises = exercisePlan.weeklySchedule.reduce((total, session) => {
           return total + (session.exercises ? session.exercises.length : 0);
@@ -1039,22 +1042,20 @@ const ExercisePlanDetail = ({ planId }) => {
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <span className={`px-2 py-1 text-xs sm:text-sm font-medium rounded-full ${
-                plan.planType === 'gym' 
+              <span className={`px-2 py-1 text-xs sm:text-sm font-medium rounded-full ${plan.planType === 'gym'
                   ? 'bg-orange-100 text-orange-800'
                   : plan.planType === 'home'
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-blue-100 text-blue-800'
-              }`}>
+                    ? 'bg-green-100 text-green-800'
+                    : 'bg-blue-100 text-blue-800'
+                }`}>
                 {plan.planType.toUpperCase()}
               </span>
-              <span className={`px-2 py-1 text-xs sm:text-sm font-medium rounded-full ${
-                plan.difficulty === 'beginner'
+              <span className={`px-2 py-1 text-xs sm:text-sm font-medium rounded-full ${plan.difficulty === 'beginner'
                   ? 'bg-green-100 text-green-800'
                   : plan.difficulty === 'intermediate'
-                  ? 'bg-yellow-100 text-yellow-800'
-                  : 'bg-red-100 text-red-800'
-              }`}>
+                    ? 'bg-yellow-100 text-yellow-800'
+                    : 'bg-red-100 text-red-800'
+                }`}>
                 {plan.difficulty}
               </span>
             </div>
@@ -1125,8 +1126,8 @@ const ExercisePlanDetail = ({ planId }) => {
             </nav>
           </div> */}
 
-          {/* Tab Content */}
-          {/* {activeTab === 'schedule' && (
+        {/* Tab Content */}
+        {/* {activeTab === 'schedule' && (
             <div className="space-y-6">
               {plan.weeklySchedule && plan.weeklySchedule.length > 0 ? (
                 plan.weeklySchedule.map((session, index) => (
@@ -1148,7 +1149,7 @@ const ExercisePlanDetail = ({ planId }) => {
                     </div>
                      */}
 
-                        {/* Tabs - Scrollable on mobile */}
+        {/* Tabs - Scrollable on mobile */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1158,21 +1159,19 @@ const ExercisePlanDetail = ({ planId }) => {
             <nav className="flex space-x-4 sm:space-x-8 min-w-max">
               <button
                 onClick={() => setActiveTab('schedule')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
-                  activeTab === 'schedule'
+                className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === 'schedule'
                     ? 'border-orange-500 text-orange-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                  }`}
               >
                 Weekly Schedule
               </button>
               <button
                 onClick={() => setActiveTab('progress')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
-                  activeTab === 'progress'
+                className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === 'progress'
                     ? 'border-orange-500 text-orange-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                  }`}
               >
                 Log Progress
               </button>
@@ -1229,13 +1228,12 @@ const ExercisePlanDetail = ({ planId }) => {
                             <div key={exIndex} className="p-4 bg-gray-50 rounded-lg">
                               <div className="flex items-center justify-between mb-2">
                                 <h5 className="font-medium text-gray-800">{exercise.name}</h5>
-                                <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                                  exercise.difficulty === 'beginner'
+                                <span className={`px-2 py-1 text-xs font-medium rounded-full ${exercise.difficulty === 'beginner'
                                     ? 'bg-green-100 text-green-800'
                                     : exercise.difficulty === 'intermediate'
-                                    ? 'bg-yellow-100 text-yellow-800'
-                                    : 'bg-red-100 text-red-800'
-                                }`}>
+                                      ? 'bg-yellow-100 text-yellow-800'
+                                      : 'bg-red-100 text-red-800'
+                                  }`}>
                                   {exercise.difficulty}
                                 </span>
                               </div>
@@ -1306,19 +1304,19 @@ const ExercisePlanDetail = ({ planId }) => {
                   </Card>
                 ))
               ) : (
-          //       <div className="text-center py-8">
-          //         <p className="text-gray-600">No workout sessions found in this plan.</p>
-          //       </div>
-          //     )}
-          //   </div>
-          // )}
+                //       <div className="text-center py-8">
+                //         <p className="text-gray-600">No workout sessions found in this plan.</p>
+                //       </div>
+                //     )}
+                //   </div>
+                // )}
 
-          // {activeTab === 'progress' && (
-          //   <Card>
-          //     <h3 className="text-lg font-semibold text-gray-900 mb-6">Log Today's Progress</h3>
-          //     <div className="space-y-6">
-          //       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          //         <div>
+                // {activeTab === 'progress' && (
+                //   <Card>
+                //     <h3 className="text-lg font-semibold text-gray-900 mb-6">Log Today's Progress</h3>
+                //     <div className="space-y-6">
+                //       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                //         <div>
                 <div className="text-center py-6 sm:py-8">
                   <p className="text-gray-600">No workout sessions found in this plan.</p>
                 </div>
@@ -1333,81 +1331,80 @@ const ExercisePlanDetail = ({ planId }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
 
 
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Completed Exercises
-                    </label>
-                    <input
-                      type="number"
-                      value={progressData.completedExercises}
-                      onChange={(e) => setProgressData({
-                        ...progressData,
-                        completedExercises: parseInt(e.target.value) || 0
-                      })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      placeholder="0"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Total Exercises
-                    </label>
-                    <input
-                      type="number"
-                      value={progressData.totalExercises}
-                      onChange={(e) => setProgressData({
-                        ...progressData,
-                        totalExercises: parseInt(e.target.value) || 0
-                      })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      placeholder="0"
-                    />
-                  </div>
-                </div>
-
-                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Rating (1-5)
+                    Completed Exercises
                   </label>
-                  <div className="flex space-x-2">
-                    {[1, 2, 3, 4, 5].map((rating) => (
-                      <button
-                        key={rating}
-                        onClick={() => setProgressData({
-                          ...progressData,
-                          rating
-                        })}
-                        className={`p-2 rounded-lg transition-colors ${
-                          progressData.rating >= rating
-                            ? 'text-yellow-500'
-                            : 'text-gray-300 hover:text-yellow-400'
-                        }`}
-                      >
-                        <Star className="w-6 h-6 fill-current" />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Feedback (Optional)
-                  </label>
-                  <textarea
-                    value={progressData.feedback}
+                  <input
+                    type="number"
+                    value={progressData.completedExercises}
                     onChange={(e) => setProgressData({
                       ...progressData,
-                      feedback: e.target.value
+                      completedExercises: parseInt(e.target.value) || 0
                     })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                    rows="3"
-                    placeholder="How did the workout feel? Any notes or observations..."
+                    placeholder="0"
                   />
                 </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Total Exercises
+                  </label>
+                  <input
+                    type="number"
+                    value={progressData.totalExercises}
+                    onChange={(e) => setProgressData({
+                      ...progressData,
+                      totalExercises: parseInt(e.target.value) || 0
+                    })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    placeholder="0"
+                  />
+                </div>
+              </div>
 
-                <Button onClick={logProgress} className="w-full">
-                  <CheckCircle className="w-5 h-5 mr-2" />
-                  Log Progress
-                </Button>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Rating (1-5)
+                </label>
+                <div className="flex space-x-2">
+                  {[1, 2, 3, 4, 5].map((rating) => (
+                    <button
+                      key={rating}
+                      onClick={() => setProgressData({
+                        ...progressData,
+                        rating
+                      })}
+                      className={`p-2 rounded-lg transition-colors ${progressData.rating >= rating
+                          ? 'text-yellow-500'
+                          : 'text-gray-300 hover:text-yellow-400'
+                        }`}
+                    >
+                      <Star className="w-6 h-6 fill-current" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Feedback (Optional)
+                </label>
+                <textarea
+                  value={progressData.feedback}
+                  onChange={(e) => setProgressData({
+                    ...progressData,
+                    feedback: e.target.value
+                  })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  rows="3"
+                  placeholder="How did the workout feel? Any notes or observations..."
+                />
+              </div>
+
+              <Button onClick={logProgress} className="w-full">
+                <CheckCircle className="w-5 h-5 mr-2" />
+                Log Progress
+              </Button>
               {/* </div> */}
             </Card>
           )}
